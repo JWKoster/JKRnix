@@ -1,0 +1,47 @@
+#!/bin/bash
+#Use bash if available, to cause as few compatibility complications as possible
+# ==================================================================== #
+# Jelle Koster's Environment Settings, Scripts, Aliases, Libraries, ...
+# based on the work of many others, found through extensive google-fu
+# ==================================================================== #
+
+#Check if this is a multi-user environment, to avoid making changes for other users.
+#This check currently only caters for LSP environments, this should be extended for other environment types.
+gEnvType="Generic"
+iamjkr=true
+
+if [ "$cwksbEnvironment" = "dev" ]
+        then
+                gEnvType="LSP" ;
+                case ${NIP_LOGNAME} in
+                        "jkr")  exoprt iamjkr=true ;;
+                        "")     echo -n "Please enter your three letter abbreviation in lowercase: " ;
+                                read -r gUserAbbreviation ;
+                                case ${gUserAbbreviation} in
+                                        "")     iamjkr=false ;
+                                                exit 0 ;;
+                                        *)      remember_me.sh ${gUserAbbreviation} #remember_me.sh starts a new shell, sets ${NIP_LOGNAME} and thus runs this again getting a different option
+                                                exit 0 ;;
+                                esac ;;
+                        *)      iamjkr=false
+                                exit 0 ;;
+                esac
+fi
+
+export jkr=~/jkr/
+export jkrnix=~/jkr/jkrnix/
+export jkrlog=~/jkr/logs/
+
+sh ${jkrnix}/self-updater/checkForUpdates.sh
+
+#execute dotfiles
+for dot in ${jkrnix}/dot/.*
+do . ${dot}
+done
+
+
+case ${gEnvType} in "Generic")
+
+#Move to my 'home' directory
+#cd ${jkr}
+esac
