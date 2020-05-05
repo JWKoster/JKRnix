@@ -1,0 +1,141 @@
+## logging.shlib
+#	DESCRIPTION	:	function library to log messages
+#	AUTHOR		:	AHL
+#	Adjusted by JKR to prevent conflicts, and allow jkrnix reuse. Thanks, AHL!
+#	ID		:	$Id: logging.shlib 616 2018-03-28 09:30:31Z ahl $
+#
+#	PROVIDES
+#	---------------------------------------------------------------------------------------
+#	complain	:	complain to the user through stderr (adds stack info)
+#	warning         :	warn the user through stderr (adds stack info)
+#	verbose		:	only say something if the verbose flag is set
+#	verbose2	:	same as verbose, but output to stderr
+#	set_verbose	:	turn on the verbose flag (so 'verbose' does something)
+#	unset_verbose	:	turn off the verbose flag
+#	set_logfile	:	set log file, which will contain all the complaints and verbose logging
+#	unset_logfile	:	stop logging in the log file
+#	confirm         :	ask for confirmation from the user
+##
+
+logging_verbose="false"
+logfile=""
+
+export JKR_BOLD_RED=$(tput bold; tput setaf 1)
+export JKR_BOLD_MAG=$(tput bold; tput setaf 5)
+export JKR_CLEAR_ATTR=$(tput sgr0)
+
+complain()
+{
+	## complain
+	#	complains to the user through stderr
+	#	usage as you would use echo
+	##
+	echo "${JKR_BOLD_RED}error:${JKR_CLEAR_ATTR} ${FUNCNAME[1]}: "$(caller | awk '
+		function bn(p) {
+			n=split(p, a, "/");
+			return a[n];
+		}
+
+		{ printf("%s (%d)",bn($2),$1) }'): "${JKR_BOLD_RED}${@}${JKR_CLEAR_ATTR}" >&2
+	
+	if [ -n "${logfile}" ]; then
+		echo "error: ${FUNCNAME[1]}: "$(caller | awk '{ printf("%s (%d)",$2,$1) }'): "$@" >> "${logfile}"
+	fi		
+}
+
+warning()
+{
+	## warning
+	#	warns the user through stderr
+	#	usage as you would use echo
+	##
+	echo "${JKR_BOLD_MAG}warning:${JKR_CLEAR_ATTR} ${FUNCNAME[1]}: "$(caller | awk '
+		function bn(p) {
+			n=split(p, a, "/");
+			return a[n];
+		}
+
+		{ printf("%s (%d)",bn($2),$1) }'): "${JKR_BOLD_MAG}${@}${JKR_CLEAR_ATTR}" >&2
+	
+	if [ -n "${logfile}" ]; then
+		echo "warning: ${FUNCNAME[1]}: "$(caller | awk '{ printf("%s (%d)",$2,$1) }'): "$@" >> "${logfile}"
+	fi		
+}
+
+verbose()
+{
+	## verbose
+	#	only say something if the verbose flag is set
+	#	use as you would use echo
+	##
+	${logging_verbose} && echo "$@"
+	if [ -n "${logfile}" ]; then
+		echo "$@" >> "${logfile}"
+	fi
+}
+
+verbose2()
+{
+	## verbose
+	#	yak through stderr
+	##
+	${logging_verbose} && echo "$@" >&2
+	if [ -n "${logfile}" ]; then
+		echo "$@" >> "${logfile}"
+	fi
+}
+
+set_verbose()
+{
+	## set_verbose
+	#	turn on the verbose flag
+	##
+	export logging_verbose=true
+}
+
+unset_verbose()
+{
+	## unset_verbose
+	#	turn off the verbose flag
+	##
+	logging_verbose=false
+}
+
+set_logfile()
+{
+	## set_logfile
+	#	turn on logging to a logfile
+	##
+	logfile="${1}"
+}
+
+unset_logfile()
+{
+	## unset_logfile
+	#	turn off logging to a logfile
+	##
+	logfile=""
+}
+
+confirm()
+{
+	local question="${1}"
+	local ans
+
+	while true; do
+		echo "${question}"
+		printf 'Please enter Y(es) or N(o): '
+		read ans
+
+		if echo "${ans}" | egrep -qi '^y(es)?$'; then
+			return 0
+		fi
+
+		if echo "${ans}" | egrep -qi '^n(o)?$'; then
+			return 10
+		fi
+
+		echo "Invalid input ... please retry"
+	done
+	return 10
+}
