@@ -1,0 +1,3 @@
+if [ -d ${jkr}/bin ] ; then
+    PATH=${PATH}:${jkr}/bin
+fi
