@@ -14,14 +14,14 @@ if [ "$cwksbEnvironment" = "dev" ]
         then
                 gEnvType="LSP" ;
                 case ${NIP_LOGNAME} in
-                        "jkr")  exoprt iamjkr=true ;;
-                        "")     echo -n "Please enter your three letter abbreviation in lowercase: " ;
-                                read -r gUserAbbreviation ;
+                        "jkr")  export iamjkr=true ;;
+                        "")     echo -n "Please enter your three letter abbreviation in lowercase:"
+                                read -r gUserAbbreviation
                                 case ${gUserAbbreviation} in
-                                        "")     iamjkr=false ;
-                                                exit 0 ;;
-                                        *)      remember_me.sh ${gUserAbbreviation} #remember_me.sh starts a new shell, sets ${NIP_LOGNAME} and thus runs this again getting a different option
-                                                exit 0 ;;
+                                        "")     iamjkr=false
+                                                ;;
+                                        *)      sh remember_me.sh ${gUserAbbreviation} #remember_me.sh starts a new shell, sets ${NIP_LOGNAME} and thus runs this again getting a different option
+                                                ;;
                                 esac ;;
                         *)      iamjkr=false
                                 exit 0 ;;
@@ -36,7 +36,10 @@ sh ${jkrnix}/self-updater/checkForUpdates.sh
 
 #execute dotfiles
 for dot in ${jkrnix}/dot/.*
-do . ${dot}
+do 
+if [ -f ${dot} ]
+	then . ${dot}
+fi
 done
 
 

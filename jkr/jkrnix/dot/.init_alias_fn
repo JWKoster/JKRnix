@@ -27,7 +27,6 @@ alias df='df -kTh'
 #-------------------------------------------------------------
 # The 'ls' family (this assumes you use a recent GNU ls).
 #-------------------------------------------------------------
-# Add colors for filetype and  human-readable sizes by default on 'ls':
 alias lx='ls -lXB'         #  Sort by extension.
 alias lk='ls -lShr'         #  Sort by size, biggest last.
 alias lt='ls -lthr'         #  Sort by date, most recent last.
@@ -172,7 +171,7 @@ function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 alias ps="ps $@ | grep -v grep"
 function my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,bsdtime,command ; }
 function pp() { my_ps f | awk '!/awk/ && $0~var' var=${1:-".*"} ; }
-function ps_grep() { my_ps -ef | grep $1 | grep -v grep }
+function ps_grep() { my_ps -ef | grep $1 | grep -v grep ; }
 
 function killps()   # kill by process name
 {
