@@ -1,10 +1,13 @@
 #!/bin/bash
-function jkrnix_install() {wget -qO ~/jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master || exit 1
+jkrnix_install() 
+{
+wget -qO ~/jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master || exit 1
 tar -xzf ~/jkrnix.tar.gz --strip-components=1 -C ~/ && rm ~/jkrnix.tar.gz
 wget -qO currentVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commits/master --header="Accept: application/vnd.github.VERSION.sha"
 }
 
-function jkrnix_symlinks() {
+jkrnix_symlinks() 
+{
 for sh in ${jkrnix}bin/*.sh
 do
 if [ -f ${sh} ]
