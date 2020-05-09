@@ -32,19 +32,19 @@ export jkr=~/jkr/
 export jkrnix=~/jkr/jkrnix/
 export jkrlog=~/jkr/logs/
 
+#Update self if a new version is available.
 sh ${jkrnix}/self-updater/checkForUpdates.sh
 
 #execute dotfiles
 for dot in ${jkrnix}/dot/.*
-do 
-if [ -f ${dot} ]
-	then . ${dot}
-fi
-done
+	do 
+		if [ -f ${dot} ]
+			then . ${dot}
+		fi
+	done
 
 
 case ${gEnvType} in "Generic")
-
-#Move to my 'home' directory
-#cd ${jkr}
+	#Move to my 'home' directory
+	cd ${jkr}
 esac
