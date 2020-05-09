@@ -1,0 +1,29 @@
+##  logging.shlib
+#	DESCRIPTION	:	function library to generate a unified automatic helptext based on comment logging, marked by one or more occurrences of #MANSTART and #MANEND
+#	AUTHOR		:	Jelle Koster
+#	Version		:	2020-05-09 JKR
+#
+#	PROVIDES
+#	---------------------------------------------------------------------------------------
+#	usage		:	Generic template for -h help text for script
+##
+
+usage()
+
+{
+echo "This is the helptext for ${gMyName}."
+echo "Current version: $(grep "^# VS" ${0} |cut -c6-)"
+#Retrieve arguments
+echo "The possible arguments are as follows.
+Please note options followed by a semicolon (:) expect an argument.
+If an option is listed which does not  "
+grep getopts ${0} | awk -F'["]' '{print $2}' | sed -r 's/([[:alpha:]])/ -\1/g' | tail -n +2
+
+#Read arguments
+sed -n -e '/MANSTART/,/MANEND/ p' ${0} | tail -n +2 | grep -v grep | grep '#'
+
+#Read documentation
+sed -n -e '/HELPSTART/,/HELPEND/ p' ${0} | tail -n +2 | grep -v grep | grep '#'
+
+echo "\nGood luck!"
+}
