@@ -1,7 +1,7 @@
 ## logging.shlib
 #	DESCRIPTION	:	function library to log messages
 #	AUTHOR		:	AHL
-#	Adjusted by JKR to prevent conflicts, and allow jkrnix reuse. Thanks, AHL!
+#	Adjusted by JKR. Thanks, AHL!
 #	ID		:	$Id: logging.shlib 616 2018-03-28 09:30:31Z ahl $
 #
 #	PROVIDES
@@ -12,13 +12,13 @@
 #	verbose2	:	same as verbose, but output to stderr
 #	set_verbose	:	turn on the verbose flag (so 'verbose' does something)
 #	unset_verbose	:	turn off the verbose flag
-#	set_logfile	:	set log file, which will contain all the complaints and verbose logging
-#	unset_logfile	:	stop logging in the log file
+#	set_gLog	:	set log file, which will contain all the complaints and verbose logging
+#	unset_gLog	:	stop logging in the log file
 #	confirm         :	ask for confirmation from the user
 ##
 
-logging_verbose="false"
-logfile=""
+logging_verbose="false" #to be set by -v
+gLog="" #To be set by the calling script as the full path including filename
 
 export JKR_BOLD_RED=$(tput bold; tput setaf 1)
 export JKR_BOLD_MAG=$(tput bold; tput setaf 5)
@@ -38,8 +38,9 @@ complain()
 
 		{ printf("%s (%d)",bn($2),$1) }'): "${JKR_BOLD_RED}${@}${JKR_CLEAR_ATTR}" >&2
 	
-	if [ -n "${logfile}" ]; then
-		echo "error: ${FUNCNAME[1]}: "$(caller | awk '{ printf("%s (%d)",$2,$1) }'): "$@" >> "${logfile}"
+	if [ -n "${gLog}" ]; then
+		typeset iCurDateTime=$(date +"%Y_%m_%d_%H_%M_%S")
+		echo "${iCurDateTime} - ERROR:  ${FUNCNAME[1]}: "$(caller | awk '{ printf("%s (%d)",$2,$1) }'): "$@" >> "${gLog}"
 	fi		
 }
 
@@ -57,8 +58,9 @@ warning()
 
 		{ printf("%s (%d)",bn($2),$1) }'): "${JKR_BOLD_MAG}${@}${JKR_CLEAR_ATTR}" >&2
 	
-	if [ -n "${logfile}" ]; then
-		echo "warning: ${FUNCNAME[1]}: "$(caller | awk '{ printf("%s (%d)",$2,$1) }'): "$@" >> "${logfile}"
+	if [ -n "${gLog}" ]; then
+		typeset iCurDateTime=$(date +"%Y_%m_%d_%H_%M_%S")
+		echo "${iCurDateTime} - WARNING: ${FUNCNAME[1]}: "$(caller | awk '{ printf("%s (%d)",$2,$1) }'): "$@" >> "${gLog}"
 	fi		
 }
 
@@ -69,8 +71,9 @@ verbose()
 	#	use as you would use echo
 	##
 	${logging_verbose} && echo "$@"
-	if [ -n "${logfile}" ]; then
-		echo "$@" >> "${logfile}"
+	if [ -n "${gLog}" ]; then
+		typeset iCurDateTime=$(date +"%Y_%m_%d_%H_%M_%S")
+		echo "${iCurDateTime} - INFO: $@" >> "${gLog}"
 	fi
 }
 
@@ -80,8 +83,9 @@ verbose2()
 	#	yak through stderr
 	##
 	${logging_verbose} && echo "$@" >&2
-	if [ -n "${logfile}" ]; then
-		echo "$@" >> "${logfile}"
+	if [ -n "${gLog}" ]; then
+		typeset iCurDateTime=$(date +"%Y_%m_%d_%H_%M_%S")
+		echo "${iCurDateTime} - INFO: $@" >> "${gLog}"
 	fi
 }
 
@@ -101,20 +105,20 @@ unset_verbose()
 	logging_verbose=false
 }
 
-set_logfile()
+set_gLog()
 {
-	## set_logfile
+	## set_gLog
 	#	turn on logging to a logfile
 	##
-	logfile="${1}"
+	gLog="${1}"
 }
 
-unset_logfile()
+unset_gLog()
 {
-	## unset_logfile
+	## unset_gLog
 	#	turn off logging to a logfile
 	##
-	logfile=""
+	gLog=""
 }
 
 confirm()
