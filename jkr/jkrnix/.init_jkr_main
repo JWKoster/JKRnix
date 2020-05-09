@@ -24,7 +24,7 @@ if [ "$cwksbEnvironment" = "dev" ]
                                                 ;;
                                 esac ;;
                         *)      iamjkr=false
-                                exit 0 ;;
+                                return 0 ;;
                 esac
 fi
 
