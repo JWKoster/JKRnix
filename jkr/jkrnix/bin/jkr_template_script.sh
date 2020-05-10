@@ -17,12 +17,12 @@
 
 #Load libraries
 JKR_LIBS="jkr_usage.shlib jkr_logging.shlib"
-. JKR_load_lib.sh
+. ${jkr}/bin/jkr_load_lib.sh
 
 #Globals
 
 gMyName=$(basename ${0})
-gHome=”$( cd “$(dirname “$0”)” >/dev/null 2>&1 ; pwd -P )”
+gHome=$( cd “$(dirname “$0”)” >/dev/null 2>&1 ; pwd -P )
 gSysDateTime=$(date +"%d_%m_%Y_%H_%M_%S")
 gLogDir=${jkr}/logs/
 gLog=${gLogDir}/${gMyName}_${gSysDateTime}.log
@@ -91,5 +91,13 @@ done
 # ==================================================================== #
 # Body
 # ==================================================================== #
+echo ${1}
+if [ -n ${1} ]
+	then 
+		if ! confirm "${1} already exists, are you sure you want to overwrite?: "
+			then	
+				exit 0
+		fi
+fi
 
-cp ${gHome}/${gMyName} ${1}
+cp $gHome/${gMyName} ${1}
