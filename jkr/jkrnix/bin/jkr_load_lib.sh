@@ -19,7 +19,7 @@ myself="load_lib.sh"
 
 if [ -z "${JKR_LIBPATH}" ]; then
 	if [ -d "${U_INSTALLROOT}/jkr/lib" ]; then
-		JKR_LIBPATH="${U_INSTALLROOT}/jkr/lib"
+		JKR_LIBPATH="${U_INSTALLROOT}/jkr/lib" #~/jkr/jkrnix/lib libraries are symlinked
 	fi
 fi
 
