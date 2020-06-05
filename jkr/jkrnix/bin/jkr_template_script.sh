@@ -92,9 +92,9 @@ done
 # Body
 # ==================================================================== #
 echo ${1}
-if [ -n ${1} ]
+if [ -f ${1} ]
 	then 
-		if ! confirm "${1} already exists, are you sure you want to overwrite?: "
+		if ! confirm "${1} already exists, are you sure you want to overwrite?"
 			then	
 				exit 0
 		fi
