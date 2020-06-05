@@ -168,7 +168,7 @@ function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 # Process/system related functions:
 #-------------------------------------------------------------
 
-alias ps="ps $@ | grep -v grep"
+#alias ps="ps $@ | grep -v grep" #commented out, doesn't work right: grep: grep: No such file or directory
 function my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,bsdtime,command ; }
 function pp() { my_ps f | awk '!/awk/ && $0~var' var=${1:-".*"} ; }
 function ps_grep() { my_ps -ef | grep $1 | grep -v grep ; }
