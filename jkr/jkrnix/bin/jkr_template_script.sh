@@ -33,7 +33,16 @@
 # Globals
 
 gMyName=$(basename ${0})
-gHome=$( cd “$(dirname “$0”)” >/dev/null 2>&1 ; pwd -P )
+# retrieve the full pathname of the called script
+gScriptPath=$(which ${gMyName})
+# check whether the path is a link or not
+if [ -L ${gScriptPath} ]; then
+    # it is a link then retrieve the target path and get the directory name
+    gHome=$(dirname `readlink -f ${gScriptPath}`)
+	else
+    # otherwise get the directory name of the script path
+    gHome=$(dirname ${gScriptPath})
+fi
 gSysDateTime=$(date +"%d_%m_%Y_%H_%M_%S")
 if [ -d ${jkr}/logs ] 
 	then gLogDir=${jkr}/logs/
