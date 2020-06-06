@@ -1,19 +1,18 @@
-## logging.shlib
+##  jkr_logging.shlib
 #	DESCRIPTION	:	function library to log messages
 #	AUTHOR		:	AHL
 #	Adjusted by JKR. Thanks, AHL!
-#	ID		:	$Id: logging.shlib 616 2018-03-28 09:30:31Z ahl $
 #
 #	PROVIDES
 #	---------------------------------------------------------------------------------------
-#	complain	:	complain to the user through stderr (adds stack info)
-#	warning         :	warn the user through stderr (adds stack info)
-#	verbose		:	only say something if the verbose flag is set
-#	verbose2	:	same as verbose, but output to stderr
-#	set_verbose	:	turn on the verbose flag (so 'verbose' does something)
+#	complain		:	complain to the user through stderr (adds stack info)
+#	warning     	:	warn the user through stderr (adds stack info)
+#	verbose			:	only say something if the verbose flag is set
+#	verbose2		:	same as verbose, but output to stderr
+#	set_verbose		:	turn on the verbose flag (so 'verbose' does something)
 #	unset_verbose	:	turn off the verbose flag
-#	set_gLog	:	set log file, which will contain all the complaints and verbose logging
-#	unset_gLog	:	stop logging in the log file
+#	set_gLog		:	set log file, which will contain all the complaints and verbose logging
+#	unset_gLog		:	stop logging in the log file
 #	confirm         :	ask for confirmation from the user
 ##
 

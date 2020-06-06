@@ -61,19 +61,19 @@ while getopts ":hvDs" Flag
 do
 
         case ${Flag} in
-				#		Put the # comment on the same line as the option to ensure the option is shown in the dynamic "usage" helptext!
-				# 		For example: h)      # displays this help
-				#		Only entries between #MANSTART and #MANEND are shown. You can use #MANSTART and #MANEND multiple times.
-				#		The commented out option letters are reserved, but not in use in the template script. Comment them back in and create some functionality if you want to use them.
-                #       c)      # -c creates my config file, comment this in if your script uses a config file.
-                        #               create_myconfig
-                        #               exit $?
-                        #                ;;
-				#		q)      # Ssshh! Quiet.
-				#				# Create some functionality to prevent output that is not caused by -v to go to the logfile, if you want to support a quiet mode. Maybe add it back into the library in GIT :)
-				#		unset_verbose
-                #		;;
-                #MANSTART
+#		Put the # comment on the same line as the option to ensure the option is shown in the dynamic "usage" helptext!
+# 		For example: h)      # displays this help
+#		Only entries between #MANSTART and #MANEND are shown, which include those markers at the beginning of the line. You can use #MANSTART and #MANEND multiple times.
+#		The commented out option letters are reserved, but not in use in the template script. Comment them back in and create some functionality if you want to use them.
+#       c)      # -c creates my config file, comment this in if your script uses a config file.
+        #               create_myconfig
+        #               exit $?
+        #                ;;
+#		q)      # Ssshh! Quiet.
+#				# Create some functionality to prevent output that is not caused by -v to go to the logfile, if you want to support a quiet mode. Maybe add it back into the library in GIT :)
+#		unset_verbose
+#		;;
+#MANSTART
                 h)      # displays this help
                         usage
                         exit
@@ -82,16 +82,16 @@ do
                 v)      # Verbose!
                         set_verbose
                         ;;
-					#START_EXCLUDE_ALWAYS
+#START_EXCLUDE_ALWAYS
 				s)		#Creates a standalone script without dependency on jkrnix, inserting the libraries' current versions.
 						gStandalone="true"
 						verbose "Creating script as standalone."
 						;;
-					#END_EXCLUDE_ALWAYS
+#END_EXCLUDE_ALWAYS
                 D)      # Debug to stderr, same as "sh -x"
                         set -x
                         ;;
-                #MANEND
+#MANEND
                 \?)     # Unknown option!
                         complain "Invalid option: -${OPTARG}"
                         exit 1

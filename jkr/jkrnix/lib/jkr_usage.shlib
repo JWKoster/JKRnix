@@ -1,5 +1,5 @@
-##  logging.shlib
-#	DESCRIPTION	:	function library to generate a unified automatic helptext based on comment logging, marked by one or more occurrences of #MANSTART and #MANEND
+##  jkr_usage.shlib
+#	DESCRIPTION	:	function library to generate a unified automatic helptext based on comment logging, marked by one or more occurrences of #MANSTART, #MANEND, #DOCSTART and #DOCEND.
 #	AUTHOR		:	Jelle Koster
 #	Version		:	2020-05-09 JKR
 #
@@ -13,17 +13,21 @@ usage()
 {
 echo "This is the helptext for ${gMyName}."
 echo "Current version: $(grep -m 1 "^# VS" ${0} |cut -c6-)"
+echo
 #Retrieve arguments
 echo "The possible arguments are as follows.
-Please note options followed by a semicolon (:) expect an argument.
-If an option is listed which does not  "
-grep getopts ${0} | awk -F'["]' '{print $2}' | sed -r 's/([[:alpha:]])/ -\1/g' | tail -n +2
-
+Please note options followed by a semicolon (:) expect an argument."
+grep getopts ${0} | awk -F'["]' '{print $2}' | sed -r 's/([[:alpha:]])/ -\1/g'
+echo
 #Read arguments
-sed -n -e '/MANSTART/,/MANEND/ p' ${0} | tail -n +2 | grep -v grep | grep '#'
-
+echo "The arguments are documented as follows:"
+#First take out the marked sections. Then strip the top and bottom line. Then only take the lines marked as comment. Then strip leading non-alphanumeric characters for readability, then remove lines marked to exclude.
+#JKR_TODO: Perhaps one day, an improvement would be to somehow not display commented out code. For now, recommendation is to remove unused code from the options.
+sed -n -e '/^\#MANSTART/,/^\#MANEND/ p' ${0} | tail -n +2 | head -n -1 | grep '#' | sed 's/^[^[:alnum:]]*//' | grep -v EXCLUDE
+echo
 #Read documentation
-sed -n -e '/DOCSTART/,/DOCEND/ p' ${0} | tail -n +2 | grep -v grep | grep '#'
-
-echo "\nGood luck!"
+echo "Further documentation (if any):"
+sed -n -e '/^\#DOCSTART/,/^\#DOCEND/ p' ${0} | tail -n +2 | head -n -1 | grep '#' | sed 's/^[^[:alnum:]]*//' | grep -v EXCLUDE
+echo
+echo "Good luck!"
 }
