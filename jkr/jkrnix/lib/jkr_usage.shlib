@@ -12,7 +12,7 @@ usage()
 
 {
 echo "This is the helptext for ${gMyName}."
-echo "Current version: $(grep "^# VS" ${0} |cut -c6-)"
+echo "Current version: $(grep -m 1 "^# VS" ${0} |cut -c6-)"
 #Retrieve arguments
 echo "The possible arguments are as follows.
 Please note options followed by a semicolon (:) expect an argument.
@@ -23,7 +23,7 @@ grep getopts ${0} | awk -F'["]' '{print $2}' | sed -r 's/([[:alpha:]])/ -\1/g' |
 sed -n -e '/MANSTART/,/MANEND/ p' ${0} | tail -n +2 | grep -v grep | grep '#'
 
 #Read documentation
-sed -n -e '/HELPSTART/,/HELPEND/ p' ${0} | tail -n +2 | grep -v grep | grep '#'
+sed -n -e '/DOCSTART/,/DOCEND/ p' ${0} | tail -n +2 | grep -v grep | grep '#'
 
 echo "\nGood luck!"
 }
