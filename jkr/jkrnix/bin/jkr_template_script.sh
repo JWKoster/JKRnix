@@ -22,23 +22,15 @@
 # ==================================================================== #
 # VS 1.0/01
 
- 
 
 # History:
 
 # Version Date     		Who      Remarks
 
-# 1.0/01  YYYY/MM/DD JKR        Created base version to ...
+# 1.0/01  YYYY/MM/DD 	JKR      Created base version to ...
 
 # ==================================================================== #
-# Libraries
-
-#START_EXCLUDE_STANDALONE
-#Load libraries
-JKR_LIBS="jkr_usage.shlib jkr_logging.shlib"
-. ${jkr}/bin/jkr_load_lib.sh
-#END_EXCLUDE_STANDALONE
-#Globals
+# Globals
 
 gMyName=$(basename ${0})
 gHome=$( cd “$(dirname “$0”)” >/dev/null 2>&1 ; pwd -P )
@@ -53,7 +45,16 @@ gStandalone="false"
 #END_EXCLUDE_ALWAYS
 
 # ==================================================================== #
-# Options and manual
+# Libraries
+
+#START_EXCLUDE_STANDALONE
+#Load libraries
+JKR_LIBS="jkr_usage.shlib jkr_logging.shlib"
+. ${jkr}/bin/jkr_load_lib.sh
+#END_EXCLUDE_STANDALONE
+
+# ==================================================================== #
+# Options and documentation
 
 while getopts ":hvDs" Flag
 #Some default flags
@@ -129,6 +130,8 @@ if [ -f ${1} ]
 		if ! confirm "${1} already exists, are you sure you want to overwrite?"
 			then	
 				exit 0
+			else
+				chmod 700 ${1}; rm ${1}
 		fi
 fi
 
@@ -143,9 +146,10 @@ if [ ${gStandalone} = "true" ]
 		echo "#It may not look pretty, but does allow a more flexible creation. Clean it up if you want." >> ${tmpFile}
 		for i in ${JKR_LIBS}
 		do cat ${jkr}/lib/${i} >> ${tmpFile}
+		echo
 		done
 		echo "#End of imported libraries" >> ${tmpFile}
-		sed -e '/Libraries/r ${tmpFile}' ${1}
+		sed -i "/^\# Libraries/r ${tmpFile}" ${1}
 	else 
 		sed -i '/^\#START_EXCLUDE_JKR/,/^\#END_EXCLUDE_JKR/d' ${1}
 fi
