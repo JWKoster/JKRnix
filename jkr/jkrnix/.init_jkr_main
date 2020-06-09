@@ -6,7 +6,7 @@
 # ==================================================================== #
 
 #Check if this is a multi-user environment, to avoid making changes for other users.
-#This check currently only caters for LSP environments, this should be extended for other environment types.
+#This check currently only caters for LSP DEV environments and generic environments, this should be extended for other environment types.
 gEnvType="Generic"
 iamjkr=true
 
