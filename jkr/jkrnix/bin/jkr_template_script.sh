@@ -155,7 +155,8 @@ if [ ${gStandalone} = "true" ]
 		echo "#It may not look pretty, but does allow a more flexible creation. Clean it up if you want." >> ${tmpFile}
 		for i in ${JKR_LIBS}
 		do cat ${jkr}/lib/${i} >> ${tmpFile}
-		echo
+		printf '\n' >> ${tmpFile}
+		printf '\n' >> ${tmpFile}
 		done
 		echo "#End of imported libraries" >> ${tmpFile}
 		sed -i "/^\# Libraries/r ${tmpFile}" ${1}
