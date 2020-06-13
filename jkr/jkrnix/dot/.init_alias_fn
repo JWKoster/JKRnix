@@ -9,10 +9,15 @@
 #============================================================
 
 #-------------------
-# Personal Aliases
+# Navigating around
 #-------------------
 
 alias mkdir='mkdir -p'
+
+# Create a directory and cd into it
+mcd() {
+    mkdir "${1}" && cd "${1}"
+}
 
 alias ..="cd .."
 alias cd..="cd .."
@@ -48,38 +53,16 @@ alias la='ll -A'           #  Show hidden files.
 alias sl='ls'                                              # failboat...     __/\__                                                                                                                
 alias sduo='sudo'                                          # ~~~~~~~~~~~~~~~~\____/~~~~~~                                                                                                          
 alias suod='sudo'                                          #                ~  ~~~   ~.
-alias ckwsb='cwksb'
-
 
 #-------------------------------------------------------------
-# A ones
+# Cool stuff
 #-------------------------------------------------------------
 
-# Adds some text in the terminal frame (if applicable).
 
-function xtitle()
-{
-    case "$TERM" in
-    *term* | rxvt)
-        echo -en  "\e]0;$*\a" ;;
-    *)  ;;
-    esac
+# Check if a file contains non-ascii characters
+nonascii() {
+    LC_ALL=C grep -n '[^[:print:][:space:]]' "${1}"
 }
-
-
-# Aliases that use xtitle
-alias top='xtitle Processes on $HOST && top'
-alias make='xtitle Making $(basename $PWD) ; make'
-
-# .. and functions
-function man()
-{
-    for i ; do
-        xtitle The $(basename $1|tr -d .[:digit:]) manual
-        command man -a "$i"
-    done
-}
-
 
 #-------------------------------------------------------------
 # File & strings related functions:
