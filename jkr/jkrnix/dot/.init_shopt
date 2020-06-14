@@ -3,6 +3,6 @@ shopt -s autocd #a command name that is the name of a directory is executed as i
 shopt -s cdable_vars #if cd jkr, and jkr is not a directory in . but a variable with a path, cd ${jkr}
 shopt -s cdspell #minor spell corrections to directory component in cd (transposed/missing/extra character), also prints corrected path
 shopt -s dirspell #attempt spell correction for directory names during word completion
-
+shopt -s nocaseglob # Case-insensitive globbing (used in pathname expansion)
 # options for advanced tricks
 shopt -s extglob #enables pattern matching: https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html#Pattern-Matching

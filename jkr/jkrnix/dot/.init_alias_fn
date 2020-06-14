@@ -30,7 +30,7 @@ alias du='du -kh'    # Makes a more readable output.
 alias df='df -kTh'
 
 #-------------------------------------------------------------
-# The 'ls' family (this assumes you use a recent GNU ls).
+# Command overrides
 #-------------------------------------------------------------
 alias lx='ls -lXB'         #  Sort by extension.
 alias lk='ls -lShr'         #  Sort by size, biggest last.
@@ -44,6 +44,12 @@ alias lm='ll |more'        #  Pipe through 'more'
 alias lr='ll -R'           #  Recursive ls.
 alias la='ll -A'           #  Show hidden files.
 
+
+# Why vi, if you can vim?
+alias vi='vim'
+
+# Get week number
+alias week='date +%V'
 
 #-------------------------------------------------------------
 # Spelling typos - highly personnal and keyboard-dependent :-)
