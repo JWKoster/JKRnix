@@ -46,5 +46,5 @@ for dot in ${jkrnix}/dot/.*
 
 case ${gEnvType} in "Generic")
 	#Move to my 'home' directory
-	cd ${jkr}
+	cd ${jkr} || exit 1
 esac
