@@ -36,15 +36,20 @@ export jkrlog=~/jkr/logs/
 sh ${jkrnix}/self-updater/checkForUpdates.sh
 
 #execute dotfiles
-for dot in ${jkrnix}/dot/.*
-	do 
+for dot in $(find ${jkr}/dot/ -type f -name ".*" ! -name "*.disabled" )
+	do
 		if [ -f ${dot} ]
-			then . ${dot}
-		fi
+			then
+				if [ -f ${dot}.disabled ]
+						then 
+							echo "The following dotfile is disabled: ${dot}"
+							echo "	Remove ${dot.disabled} and log in again if you want to activate it."
+							continue #skip this file, because it is disabled.
+				fi
+			. ${dot}                                                                                                        fi
 	done
-
-
+	
 case ${gEnvType} in "Generic")
 	#Move to my 'home' directory
-	cd ${jkr} || exit 1
+	cd ${jkr}
 esac

@@ -8,22 +8,21 @@ wget -qO currentVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commit
 
 jkrnix_symlinks() 
 {
-for sh in ${jkrnix}bin/*.sh
+for sh in $(find ${jkrnix}/bin/ -type f -name "*.sh" ! -name "*.swp")
 do
-if [ -f ${sh} ]
-	then
-		ln -sf ${sh} ${jkr}bin/
-fi
+	ln -sf ${sh} ${jkr}bin/
 done
 
-for shlib in ${jkrnix}lib/*.shlib
+for shlib in $(find ${jkrnix}/shlib/ -type f -name "*.shlib" ! -name "*.swp")
 do
-if [ -f ${shlib} ]
-        then
-                ln -sf ${shlib} ${jkr}lib/
-fi
+	ln -sf ${shlib} ${jkr}lib/
 done
 }
 
+for dot in $(find ${jkrnix}/dot/ -type f -name ".*" ! -name "*.swp")
+do
+	ln -sf ${dot} ${jkr}dot/
+done
+}
 jkrnix_install
 jkrnix_symlinks
