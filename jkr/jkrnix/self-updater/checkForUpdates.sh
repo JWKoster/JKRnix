@@ -1,6 +1,8 @@
 #!/bin/bash
+export jkrnixrepo='https://api.github.com/repos/JWKoster/JKRnix/commits/master'
+
 cd ${jkrnix}/self-updater/
-wget -qO gitVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commits/master --header="Accept: application/vnd.github.VERSION.sha"
+wget -qO gitVersion.flat ${jkrnixrepo} --header="Accept: application/vnd.github.VERSION.sha"
 
 if [ -z gitversion.flat ]
 then echo "GIT: NULL" > gitVersion.flat

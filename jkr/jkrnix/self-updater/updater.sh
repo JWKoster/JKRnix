@@ -1,27 +1,21 @@
 #!/bin/bash
 jkrnix_install() 
 {
-wget -qO ~/jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master || exit 1
+wget -qO ~/jkrnix.tar.gz ${jkrnixrepo} || exit 1
 tar -xzf ~/jkrnix.tar.gz --strip-components=1 -C ~/ && rm ~/jkrnix.tar.gz
-wget -qO currentVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commits/master --header="Accept: application/vnd.github.VERSION.sha"
+wget -qO currentVersion.flat ${jkrnixrepo} --header="Accept: application/vnd.github.VERSION.sha"
 }
 
 jkrnix_symlinks() 
 {
-for sh in ${jkrnix}bin/*.sh
+for sh in $(find ${jkrnix}/bin/ -type f -name "*.sh" ! -name "*.swp")
 do
-if [ -f ${sh} ]
-	then
-		ln -sf ${sh} ${jkr}bin/
-fi
+	ln -sf ${sh} ${jkr}bin/
 done
 
-for shlib in ${jkrnix}lib/*.shlib
+for shlib in $(find ${jkrnix}/shlib/ -type f -name "*.shlib" ! -name "*.swp")
 do
-if [ -f ${shlib} ]
-        then
-                ln -sf ${shlib} ${jkr}lib/
-fi
+	ln -sf ${shlib} ${jkr}lib/
 done
 
 if [ ${NIP_LOGNAME} = 'jkr' ];
@@ -30,5 +24,10 @@ if [ ${NIP_LOGNAME} = 'jkr' ];
 fi
 }
 
+for dot in $(find ${jkrnix}/dot/ -type f -name ".*" ! -name "*.swp")
+do
+	ln -sf ${dot} ${jkr}dot/
+done
+}
 jkrnix_install
 jkrnix_symlinks
