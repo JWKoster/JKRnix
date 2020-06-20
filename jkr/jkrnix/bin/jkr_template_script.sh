@@ -33,16 +33,15 @@
 # Globals
 
 gMyName=$(basename ${0})
-# retrieve the full pathname of the called script
-gScriptPath=$(which ${gMyName})
-# check whether the path is a link or not
-if [ -L ${gScriptPath} ]; then
-    # it is a link then retrieve the target path and get the directory name
-    gHome=$(dirname `readlink -f ${gScriptPath}`)
-	else
-    # otherwise get the directory name of the script path
-    gHome=$(dirname ${gScriptPath})
+
+# Check if the script is in $PATH or not. Don't actually grep $PATH because of symlinks.
+if hash ${gMyName} 2>/dev/null
+	then #Use 'which' if it is a command, this is less complicated and performs better.
+		gHome=$(which ${gMyName})
+	else #This should be POSIXly correct. Sadly, in POSIX/BASH there seems to be no perfect answer to getting a script's home directory in 100% of all scenarios. Please let me know if you run into issues.
+		gHome="$( cd "$( dirname "${0}" )" >/dev/null 2>&1 && pwd )"
 fi
+
 gSysDateTime=$(date +"%d_%m_%Y_%H_%M_%S")
 if [ -d ${jkr}/logs ] 
 	then gLogDir=${jkr}/logs/
