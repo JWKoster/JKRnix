@@ -37,7 +37,7 @@ gMyName=$(basename ${0})
 # Check if the script is in $PATH or not. Don't actually grep $PATH because of symlinks.
 if hash ${gMyName} 2>/dev/null
 	then #Use 'which' if it is a command, this is less complicated and performs better.
-		gHome=$(which ${gMyName})
+		gHome=$(dirname `which ${gMyName}`)
 	else #This should be POSIXly correct. Sadly, in POSIX/BASH there seems to be no perfect answer to getting a script's home directory in 100% of all scenarios. Please let me know if you run into issues.
 		gHome="$( cd "$( dirname "${0}" )" >/dev/null 2>&1 && pwd )"
 fi
