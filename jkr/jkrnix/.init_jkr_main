@@ -32,7 +32,8 @@ for dot in $(find ${jkr}/dot/ -type f -name ".*" ! -name "*.disabled" )
 							echo "	Remove ${dot.disabled} and log in again if you want to activate it."
 							continue #skip this file, because it is disabled.
 				fi
-			. ${dot}                                                                                                        fi
+			. ${dot}
+		fi
 	done
 	
 case ${gEnvType} in "Generic")
