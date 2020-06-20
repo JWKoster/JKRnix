@@ -22,7 +22,7 @@ export jkrlog=~/jkr/logs/
 sh ${jkrnix}/self-updater/checkForUpdates.sh
 
 #execute dotfiles
-for dot in $(find ${jkr}/dot/ -type f -name ".*" ! -name "*.disabled" )
+for dot in $(find -L ${jkr}/dot/ -type f -name ".*" ! -name "*.disabled" )
 	do
 		if [ -f ${dot} ]
 			then
