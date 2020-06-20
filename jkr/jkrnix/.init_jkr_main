@@ -6,12 +6,15 @@
 # ==================================================================== #
 
 #Check if this is a multi-user environment, to avoid making changes for other users.
-#This check currently only caters for LSP DEV environments and generic environments, this should be extended for other environment types.
+#This check currently only caters for LSP DEV environments, WSL environments and generic environments, this should be extended for other environment types.
 gEnvType="Generic"
 
 if [ "$cwksbEnvironment" = "dev" ]
         then
                 gEnvType="LSP" ;
+	elif [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p') = 'Microsoft' ]
+	then
+				gEnvType="WSL"
 fi
 
 export jkr=~/jkr/
@@ -36,7 +39,9 @@ for dot in $(find -L ${jkr}/dot/ -type f -name ".*" ! -name "*.disabled" )
 		fi
 	done
 	
-case ${gEnvType} in "Generic")
-	#Move to my 'home' directory
-	cd ${jkr}
+case ${gEnvType} in 
+	"Generic" | "WSL") 	cd ${jkr} ;; #Move to my 'home' directory, to encourage leaving the rest of the environment be
+	"LSP") cd ${U_INSTALLROOT} ;; #Most work is done outside ~/jkr/
 esac
+
+
