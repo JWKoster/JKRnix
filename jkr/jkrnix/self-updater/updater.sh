@@ -13,7 +13,7 @@ do
 	ln -sf ${sh} ${jkr}bin/
 done
 
-for shlib in $(find ${jkrnix}/shlib/ -type f -name "*.shlib" ! -name "*.swp")
+for shlib in $(find ${jkrnix}/lib/ -type f -name "*.shlib" ! -name "*.swp")
 do
 	ln -sf ${shlib} ${jkr}lib/
 done
