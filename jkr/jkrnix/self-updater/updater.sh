@@ -23,6 +23,11 @@ if [ -f ${shlib} ]
                 ln -sf ${shlib} ${jkr}lib/
 fi
 done
+
+if [ ${NIP_LOGNAME} = 'jkr' ];
+        then
+            ln -sf ${jkrnix}jkr.cfg ~/etc/jkr.cfg
+fi
 }
 
 jkrnix_install

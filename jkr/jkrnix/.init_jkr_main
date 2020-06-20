@@ -8,24 +8,10 @@
 #Check if this is a multi-user environment, to avoid making changes for other users.
 #This check currently only caters for LSP DEV environments and generic environments, this should be extended for other environment types.
 gEnvType="Generic"
-iamjkr=true
 
 if [ "$cwksbEnvironment" = "dev" ]
         then
                 gEnvType="LSP" ;
-                case ${NIP_LOGNAME} in
-                        "jkr")  export iamjkr=true ;;
-                        "")     echo -n "Please enter your three letter abbreviation in lowercase:"
-                                read -r gUserAbbreviation
-                                case ${gUserAbbreviation} in
-                                        "")     iamjkr=false
-                                                ;;
-                                        *)      sh remember_me.sh ${gUserAbbreviation} #remember_me.sh starts a new shell, sets ${NIP_LOGNAME} and thus runs this again getting a different option
-                                                ;;
-                                esac ;;
-                        *)      iamjkr=false
-                                return 0 ;;
-                esac
 fi
 
 export jkr=~/jkr/

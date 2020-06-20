@@ -1,46 +1,45 @@
 #!/bin/bash
-function ssh-jkrnix(){
+function jkrnix-installcheck()
+{
+if [ ! -z ${envFile} ]
+	then
+		if grep -q jkrnix ${envFile} ;
+			then
+                installed=true ;
+			else
+                installed=false ;
+		fi
+	else echo "${envFile} not set"
+fi
+}
+
+function ssh-jkrnix()
+{
 ssh $@ -t '
 cd ~ ;
-if [ -f .bash_profile ] ;
+if [ ${cwksbEnvironment} = 'dev' ]
+	then
+		envFile=etc/jkr.cfg
+		jkrnix-installcheck
+elif [ -f .bash_profile ] ;
                 then
                         envFile=.bash_profile
-                        if grep -q jkrnix ${envFile} ;
-                                then
-                                        installed=true ;
-                                else
-                                        installed=false ;
-                        fi
+						jkrnix-installcheck
                 else
                         if [ -f .bashrc ] ;
                                 envFile=.bashrc
                                 then
-                                        if grep -q jkrnix ${envFile} ;
-                                                then
-                                                        installed=true ;
-                                                else
-                                                        installed=false ;
-                                        fi
+									jkrnix-installcheck
                                 else
                                         if [ -f .unims ] ;
                                                 envFile=.unims
                                                 then
-                                                        if grep -q jkrnix ${envFile} ;
-                                                                then
-                                                                        installed=true ;
-                                                                else
-                                                                        installed=false ;
-                                                        fi
+                                                        jkrnix-installcheck
                                                 else
                                                         if [ -f .profile ] ;
                                                                 envFile=.profile
                                                                 then
-                                                                        if grep -q jkrnix ${envFile} ;
-                                                                                                                                                        then
-                                                                                        installed=true ;
-                                                                                else
-                                                                                        installed=false ;
-                                                           
+																	jkrnix-installcheck
                                                         fi
                                                 
                                         fi
@@ -48,6 +47,10 @@ if [ -f .bash_profile ] ;
                         fi
                 
         fi
+
+
+
+
         
 case ${installed} in
                 true) echo "jkrnix already to be loaded through ${envFile}" ;;
@@ -58,17 +61,8 @@ case ${installed} in
                         
 			ln -sf ~/jkr/jkrnix/bin/*.sh ~/jkr/bin/ ;
                         ln -sf ~/jkr/jkrnix/lib/*.shlib ~/jkr/lib/ ;
-                        cat <<- EOF >> ${envFile}
-
-#JKR Start
-if [ -f ~/jkr/jkrnix/.init_jkr_main ];
-        then
-                        . ~/jkr/jkrnix/.init_jkr_main
-fi
-#Do everything else in ~/jkr/, to try to maintain separation of own creations
-#JKR End
-EOF                
-	*) exit 1 ;;
+                        cat ~/jkr/jkrnix/cfg/jkr.cfg ${envFile}
+				*) exit 1 ;;
 esac
 '
 }
