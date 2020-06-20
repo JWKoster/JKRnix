@@ -1,5 +1,5 @@
 #!/bin/bash
-function jkrnix-installcheck()
+function jkrnixInstallCheck()
 {
 if [ ! -z ${envFile} ]
 	then
@@ -16,30 +16,29 @@ fi
 function ssh-jkrnix()
 {
 ssh $@ -t '
-cd ~ ;
 if [ ${cwksbEnvironment} = 'dev' ]
 	then
 		envFile=etc/jkr.cfg
-		jkrnix-installcheck
+		jkrnixInstallCheck
 elif [ -f .bash_profile ] ;
                 then
                         envFile=.bash_profile
-						jkrnix-installcheck
+						jkrnixInstallCheck
                 else
                         if [ -f .bashrc ] ;
                                 envFile=.bashrc
                                 then
-									jkrnix-installcheck
+									jkrnixInstallCheck
                                 else
                                         if [ -f .unims ] ;
                                                 envFile=.unims
                                                 then
-                                                        jkrnix-installcheck
+                                                        jkrnixInstallCheck
                                                 else
                                                         if [ -f .profile ] ;
                                                                 envFile=.profile
                                                                 then
-																	jkrnix-installcheck
+																	jkrnixInstallCheck
                                                         fi
                                                 
                                         fi
