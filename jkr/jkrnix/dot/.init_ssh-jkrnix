@@ -61,8 +61,7 @@ case ${installed} in
                         
 			ln -sf ~/jkr/jkrnix/bin/*.sh ~/jkr/bin/ ;
                         ln -sf ~/jkr/jkrnix/lib/*.shlib ~/jkr/lib/ ;
-                        cat ~/jkr/jkrnix/cfg/jkr.cfg ${envFile}
-				*) exit 1 ;;
+                        cat ~/jkr/jkrnix/cfg/jkr.cfg >> ${envFile}
 esac
 '
 }
