@@ -22,7 +22,6 @@ if [ ${NIP_LOGNAME} = 'jkr' ];
         then
             ln -sf ${jkrnix}jkr.cfg ~/etc/jkr.cfg
 fi
-}
 
 for dot in $(find ${jkrnix}/dot/ -type f -name ".*" ! -name "*.swp")
 do
