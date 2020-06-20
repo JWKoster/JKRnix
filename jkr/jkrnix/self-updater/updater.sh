@@ -18,7 +18,7 @@ do
 	ln -sf ${shlib} ${jkr}lib/
 done
 
-if [ ${NIP_LOGNAME} = 'jkr' ] ;
+if [ ! -z ${NIP_LOGNAME} ] ;
         then
             ln -sf ${jkrnix}jkr.cfg ~/etc/jkr.cfg
 fi
