@@ -12,7 +12,7 @@ gEnvType="Generic"
 if [ "$cwksbEnvironment" = "dev" ]
         then
                 gEnvType="LSP" ;
-	elif [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p') = 'Microsoft' ]
+	elif [ "$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p')" = 'Microsoft' ]
 	then
 				gEnvType="WSL"
 fi

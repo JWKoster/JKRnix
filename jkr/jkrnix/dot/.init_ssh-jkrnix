@@ -1,66 +1,12 @@
 #!/bin/bash
-function jkrnixInstallCheck()
+ssh-jkrnix()
 {
-if [ ! -z ${envFile} ]
-	then
-		if grep -q jkrnix ${envFile} ;
-			then
-                installed=true ;
-			else
-                installed=false ;
-		fi
-	else echo "${envFile} not set"
-fi
-}
-
-function ssh-jkrnix()
-{
+echo "Deploying install file to target system"
+scp ${jkrnix}self-updater/jkr_self_install.sh $@:~/
+echo "Executing install file on target system"
 ssh $@ -t '
-if [ ${cwksbEnvironment} = 'dev' ]
-	then
-		envFile=etc/jkr.cfg
-		jkrnixInstallCheck
-elif [ -f .bash_profile ] ;
-                then
-                        envFile=.bash_profile
-						jkrnixInstallCheck
-                else
-                        if [ -f .bashrc ] ;
-                                envFile=.bashrc
-                                then
-									jkrnixInstallCheck
-                                else
-                                        if [ -f .unims ] ;
-                                                envFile=.unims
-                                                then
-                                                        jkrnixInstallCheck
-                                                else
-                                                        if [ -f .profile ] ;
-                                                                envFile=.profile
-                                                                then
-																	jkrnixInstallCheck
-                                                        fi
-                                                
-                                        fi
-                                
-                        fi
-                
-        fi
-
-
-
-
-        
-case ${installed} in
-                true) echo "jkrnix already to be loaded through ${envFile}" ;;
-                false) echo "Installing jkrnix to target environment" ;
-                        wget -qO ~/jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master ;
-                        tar -xzf ~/jkrnix.tar.gz --strip-components=1 && rm ~/jkrnix.tar.gz ;
-                        wget -qO currentVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commits/master --header="Accept: application/vnd.github.VERSION.sha" ;
-                        
-			ln -sf ~/jkr/jkrnix/bin/*.sh ~/jkr/bin/ ;
-                        ln -sf ~/jkr/jkrnix/lib/*.shlib ~/jkr/lib/ ;
-                        cat ~/jkr/jkrnix/cfg/jkr.cfg >> ${envFile}
-esac
+sh ~/jkr_self_install.sh
+rm ~/jkr_self_install.sh
 '
+echo "Finished install"
 }
