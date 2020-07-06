@@ -19,9 +19,9 @@
 logging_verbose="false" #to be set by -v
 gLog="" #To be set by the calling script as the full path including filename
 
-export JKR_BOLD_RED=$(tput bold; tput setaf 1)
-export JKR_BOLD_MAG=$(tput bold; tput setaf 5)
-export JKR_CLEAR_ATTR=$(tput sgr0)
+export JKR_RED=$(printf '\e[38;5;101m')
+export JKR_YELLOW=$(printf '\e[38;5;103m')
+export JKR_CLEAR_ATTR=$(printf '\e[0m')
 
 complain()
 {
@@ -29,13 +29,13 @@ complain()
 	#	complains to the user through stderr
 	#	usage as you would use echo
 	##
-	echo "${JKR_BOLD_RED}error:${JKR_CLEAR_ATTR} ${FUNCNAME[1]}: "$(caller | awk '
+	echo "${JKR_RED}error:${JKR_CLEAR_ATTR} ${FUNCNAME[1]}: "$(caller | awk '
 		function bn(p) {
 			n=split(p, a, "/");
 			return a[n];
 		}
 
-		{ printf("%s (%d)",bn($2),$1) }'): "${JKR_BOLD_RED}${@}${JKR_CLEAR_ATTR}" >&2
+		{ printf("%s (%d)",bn($2),$1) }'): "${JKR_RED}${@}${JKR_CLEAR_ATTR}" >&2
 	
 	if [ -n "${gLog}" ]; then
 		typeset iCurDateTime=$(date +"%Y_%m_%d_%H_%M_%S")
@@ -49,13 +49,13 @@ warning()
 	#	warns the user through stderr
 	#	usage as you would use echo
 	##
-	echo "${JKR_BOLD_MAG}warning:${JKR_CLEAR_ATTR} ${FUNCNAME[1]}: "$(caller | awk '
+	echo "${JKR_YELLOW}warning:${JKR_CLEAR_ATTR} ${FUNCNAME[1]}: "$(caller | awk '
 		function bn(p) {
 			n=split(p, a, "/");
 			return a[n];
 		}
 
-		{ printf("%s (%d)",bn($2),$1) }'): "${JKR_BOLD_MAG}${@}${JKR_CLEAR_ATTR}" >&2
+		{ printf("%s (%d)",bn($2),$1) }'): "${JKR_YELLOW}${@}${JKR_CLEAR_ATTR}" >&2
 	
 	if [ -n "${gLog}" ]; then
 		typeset iCurDateTime=$(date +"%Y_%m_%d_%H_%M_%S")
