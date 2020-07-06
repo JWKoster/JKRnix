@@ -1,8 +1,8 @@
 #!/bin/bash
 jkrnix_install() 
 {
-wget -qO ~/jkrnix.tar.gz ${jkrnixrepo} || exit 1
-tar -xzf ~/jkrnix.tar.gz --strip-components=1 -C ~/ && rm ~/jkrnix.tar.gz
+wget -qO ${jkr}/tmp/jkrnix.tar.gz ${jkrnixrepo} || exit 1
+tar -xzf ${jkr}/tmp/jkrnix.tar.gz --strip-components=1 -C ~/ && rm ${jkr}/tmp/jkrnix.tar.gz
 wget -qO currentVersion.flat ${jkrnixrepoversion} --header="Accept: application/vnd.github.VERSION.sha"
 }
 
@@ -18,15 +18,17 @@ do
 	ln -sf ${shlib} ${jkr}lib/
 done
 
+for dot in $(find ${jkrnix}/dot/ -type f -name ".*" ! -name "*.swp")
+do
+	ln -sf ${dot} ${jkr}dot/
+done
+
 if [ ! -z ${NIP_LOGNAME} ] ;
         then
             ln -sf ${jkrnix}jkr.cfg ~/etc/jkr.cfg
 fi
 
-for dot in $(find ${jkrnix}/dot/ -type f -name ".*" ! -name "*.swp")
-do
-	ln -sf ${dot} ${jkr}dot/
-done
 }
+
 jkrnix_install
 jkrnix_symlinks

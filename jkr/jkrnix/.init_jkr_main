@@ -17,9 +17,10 @@ if [ "$cwksbEnvironment" = "dev" ]
 				gEnvType="WSL"
 fi
 
-export jkr=~/jkr/
-export jkrnix=~/jkr/jkrnix/
-export jkrlog=~/jkr/logs/
+#Use find to support a dynamic install dir, because on some systems (hassOS) the user's home dir is wiped :( 
+export jkrnix=$(find / -type d -name "jkrnix" 2>/dev/null | grep -vi git | grep -vi recycle | head -1)
+export jkr=${jkrnix}/../
+export jkrlog=${jkr}/logs/
 
 #Update self if a new version is available.
 sh ${jkrnix}/self-updater/checkForUpdates.sh
