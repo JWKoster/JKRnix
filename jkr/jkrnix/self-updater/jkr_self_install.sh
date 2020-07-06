@@ -94,9 +94,9 @@ usage()
 logging_verbose="false" #to be set by -v
 gLog="" #To be set by the calling script as the full path including filename
 
-export JKR_BOLD_RED=$(tput bold; tput setaf 1)
-export JKR_BOLD_MAG=$(tput bold; tput setaf 5)
-export JKR_CLEAR_ATTR=$(tput sgr0)
+export JKR_RED=$(printf '\e[38;5;101m')
+export JKR_YELLOW=$(printf '\e[38;5;103m')
+export JKR_CLEAR_ATTR=$(printf '\e[0m')
 
 complain()
 {
