@@ -3,7 +3,7 @@ jkrnix_install()
 {
 wget -qO ${jkr}/tmp/jkrnix.tar.gz ${jkrnixrepo} || exit 1
 tar -xzf ${jkr}/tmp/jkrnix.tar.gz --strip-components=1 -C ~/ && rm ${jkr}/tmp/jkrnix.tar.gz
-wget -qO currentVersion.flat ${jkrnixrepoversion} --header="Accept: application/vnd.github.VERSION.sha"
+wget -qO ${jkrnix}/self-updater/currentVersion.flat ${jkrnixrepoversion} --header="Accept: application/vnd.github.VERSION.sha"
 }
 
 jkrnix_symlinks() 
