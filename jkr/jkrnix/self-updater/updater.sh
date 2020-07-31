@@ -25,7 +25,7 @@ done
 
 if [ ! -z ${NIP_LOGNAME} ] ;
         then
-            ln -sf ${jkrnix}jkr.cfg ~/etc/jkr.cfg
+            ln -sf ${jkrnix}/cfg/jkr.cfg ~/etc/jkr.cfg
 fi
 
 }
