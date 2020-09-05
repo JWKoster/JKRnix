@@ -13,7 +13,7 @@
 
 # Version Date     		Who      Remarks
 
-# 1.0/01  YYYY/MM/DD 	JKR      Created base version to ...
+# 1.0/01  YYYY/MM/DD 	JKR      Created base version to install jkrnix on a new environment.
 
 # ==================================================================== #
 # Globals
@@ -270,7 +270,7 @@ shift $((OPTIND-1))
 
 #DOCSTART
 #
-#Document your script here!
+#This script installs jkrnix: Jelle Koster's own Unix environment settings & toolset.
 #DOCEND
 
 # ==================================================================== #
@@ -334,8 +334,8 @@ case ${installed} in
 	true) echo "jkrnix already to be loaded through ${envFile}" ;;
 	false) echo "Installing jkrnix" ;
 		cd ~ ;
-		wget -qO ~/jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master ;
-		tar -xzf ~/jkrnix.tar.gz --strip-components=1 && rm ~/jkrnix.tar.gz ;
+		wget -qO jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master ;
+		tar -xzf jkrnix.tar.gz --strip-components=1 && rm jkrnix.tar.gz ;
 		cd ~/jkr/jkrnix/self-updater/
 		wget -qO currentVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commits/master --header="Accept: application/vnd.github.VERSION.sha" ;
 
