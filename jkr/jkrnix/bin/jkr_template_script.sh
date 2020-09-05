@@ -17,7 +17,7 @@
 # 1.0/01  2020/09/01	JKR      Created base version to more easily and uniformly create scripts
 # 2.0/01  2020/06/05	JKR		 Added functionality to create standalone scripts (-s), which can be deployed without dependency on jkrnix variables.
 # 2.0/02  2020/06/06	JKR		 Added functionality to exclude parts of this script from the resulting file using START & END EXCLUDE ALWAYS/JKR/STANDALONE
-
+# 2.0/03  2020/07/30	JKR		 Added create_myconfig function, purposely not through shlib so the heredoc can be changed per script
 #END_EXCLUDE_ALWAYS
 # ==================================================================== #
 # VS 1.0/01
@@ -48,6 +48,20 @@ if [ -d ${jkr}/logs ]
 	else gLogDir=$(mktemp -d) || exit 1
 fi
 gLog=${gLogDir}/${gMyName}_${gSysDateTime}.log
+#START_EXCLUDE_STANDALONE
+gMyConfigFile=${jkr}/cfg/${gMyName%.*}.cfg
+#END_EXCLUDE_STANDALONE
+#START_EXCLUDE_JKR
+if [ ! -d ~/jkr ]
+	then
+		mkdir ~/jkr
+		if [ ! -d ~/jkr/cfg ]
+			then
+				mkdir ~/jkr/cfg
+		fi
+fi
+gMyConfigFile=~/jkr/cfg/${gMyName%.*}.cfg
+#END_EXCLUDE_JKR
 #START_EXCLUDE_ALWAYS
 gStandalone="false"
 #END_EXCLUDE_ALWAYS
@@ -73,10 +87,11 @@ do
 # 		For example: h)      # displays this help
 #		Only entries between #MANSTART and #MANEND are shown, which include those markers at the beginning of the line. You can use #MANSTART and #MANEND multiple times.
 #		The commented out option letters are reserved, but not in use in the template script. Comment them back in and create some functionality if you want to use them.
-#       c)      # -c creates my config file, comment this in if your script uses a config file.
-        #               create_myconfig
-        #               exit $?
-        #                ;;
+#		-c comment this in if your script uses a config file. Add the heredoc in the function create_myconfig.
+#       c)      # -c creates my config file
+#                       create_myconfig
+#                       exit $?
+#                        ;;
 #		q)      # Ssshh! Quiet.
 #				# Create some functionality to prevent output that is not caused by -v to go to the logfile, if you want to support a quiet mode. Maybe add it back into the library in GIT :)
 #		unset_verbose
@@ -126,6 +141,36 @@ done
 
 # ==================================================================== #
 # Functions
+
+function create_myconfig()
+{
+# Create my own config file.
+
+# Check if config file already exists:
+if [ -f "${gMyConfigFile}" ]
+then
+        complain "Config file already exists. Aborting."
+        return 1
+fi
+
+# Check if directory exists:
+typeset tMyConfigDir=$(dirname ${gMyConfigFile})
+
+if [ ! -d "${gMyConfigFile}" ]
+then
+        mkdir -p ${tMyConfigDir} || return 1
+fi
+
+# Now create the config file (remember to escape variables you want to be passed on using \ before $):
+cat <<-EOC > ${gMyConfigFile}
+# Configuration file ${gMyName}
+exampleParameter="exampleString" #Describe the parameter
+EOC
+
+verbose "Config file created: ${gMyConfigFile}"
+verbose "Change this config file first before continue the installation."
+return 0
+}
 
 # ==================================================================== #
 # Body

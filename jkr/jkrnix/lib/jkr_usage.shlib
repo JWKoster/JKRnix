@@ -23,11 +23,11 @@ echo
 echo "The arguments are documented as follows:"
 #First take out the marked sections. Then strip the top and bottom line. Then only take the lines marked as comment. Then strip leading non-alphanumeric characters for readability, then remove lines marked to exclude.
 #JKR_TODO: Perhaps one day, an improvement would be to somehow not display commented out code. For now, recommendation is to remove unused code from the options.
-sed -n -e '/^\#MANSTART/,/^\#MANEND/ p' ${0} | tail -n +2 | head -n -1 | grep '#' | sed 's/^[^[:alnum:]]*//' | grep -v EXCLUDE
+sed -n -e '/^\#MANSTART/,/^\#MANEND/ p' ${0} | tail -n +2 | head -n -1 | grep '#' | sed 's/^[^[:alnum:]]*//' | grep -v EXCLUDE | grep -v ^MAN
 echo
 #Read documentation
 echo "Further documentation (if any):"
-sed -n -e '/^\#DOCSTART/,/^\#DOCEND/ p' ${0} | tail -n +2 | head -n -1 | grep '#' | sed 's/^[^[:alnum:]]*//' | grep -v EXCLUDE
+sed -n -e '/^\#DOCSTART/,/^\#DOCEND/ p' ${0} | tail -n +2 | head -n -1 | grep '#' | sed 's/^[^[:alnum:]]*//' | grep -v EXCLUDE | grep -v ^DOC
 echo
 echo "Good luck!"
 }
