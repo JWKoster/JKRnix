@@ -17,7 +17,7 @@ echo
 #Retrieve arguments
 echo "The possible arguments are as follows.
 Please note options followed by a semicolon (:) expect an argument."
-grep getopts ${0} | awk -F'["]' '{print $2}' | sed -r 's/([[:alpha:]])/ -\1/g' | tail -1
+grep getopts ${0} | grep -v grep | awk -F'["]' '{print $2}' | sed -r 's/([[:alpha:]])/ -\1/g' | tail -1
 echo
 #Read arguments
 echo "The arguments are documented as follows:"
