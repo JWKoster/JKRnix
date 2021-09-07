@@ -23,8 +23,8 @@ if [ "${gEnvType}" = "LSP" ]
 		export jkrnix=~/jkr/jkrnix
 	else
 		if type locate &>/dev/null ; 
-			then export jkrnix=locate -r '/jkrnix$' | grep -vi git | grep -vi recycle head -1; 
-			else export jkrnix=$(find / -type d -name "jkrnix" 2>/dev/null | grep -vi git | grep -vi recycle | head -1); 
+			then export jkrnix=$(locate -r '/jkrnix' | grep -vi git | grep -vi recycle | head -1) 
+			else export jkrnix=$(find / -type d -name "jkrnix" 2>/dev/null | grep -vi git | grep -vi recycle | head -1)
 		fi
 fi
 
