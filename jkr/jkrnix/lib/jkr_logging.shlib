@@ -17,7 +17,9 @@
 ##
 
 logging_verbose="false" #to be set by -v
+#START_EXCLUDE_STANDALONE
 gLog="" #To be set by the calling script as the full path including filename
+#END_EXCLUDE_STANDALONE
 
 export JKR_RED=$(printf '\e[38;5;101m')
 export JKR_YELLOW=$(printf '\e[38;5;103m')
