@@ -52,7 +52,7 @@ alias vi='vim'
 alias week='date +%V'
 
 #-------------------------------------------------------------
-# Spelling typos - highly personnal and keyboard-dependent :-)
+# Spelling typos - highly personal and keyboard-dependent :-)
 #-------------------------------------------------------------
 
 
@@ -74,6 +74,8 @@ nonascii() {
 # File & strings related functions:
 #-------------------------------------------------------------
 
+#Easy backing up of files with date stamp.
+function jkr_cpsave() { cp -p ${1} ${1}_save$(date +%F) ; }
 
 #locate alternative
 function ff() { find . -type f -iname '*'"$*"'*' -ls ; }
