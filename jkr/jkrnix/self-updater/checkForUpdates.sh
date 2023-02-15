@@ -16,7 +16,9 @@ wget -qO ${jkrnix}/self-updater/gitVersion.flat ${jkrnixrepoversion} --header="A
 
 if [ "$(cat ${jkrnix}/self-updater/gitVersion.flat)" = "$(cat ${jkrnix}/self-updater/currentVersion.flat)" ] ; 
 	then
-		exit 0
-	else	
-		sh updater.sh
+        echo "JKRnix is active. No updates to be done. Enjoy!"
+            exit 0
+    else
+            sh updater.sh && echo "JKRnix updated to the latest version. Enjoy!"
+
 fi
