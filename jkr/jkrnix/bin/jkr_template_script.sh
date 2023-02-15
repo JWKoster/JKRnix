@@ -6,7 +6,7 @@
 # ==================================================================== #
 
 #START_EXCLUDE_ALWAYS
-# VS 2.0/01
+# VS 2.0/06
 
  
 
@@ -19,6 +19,9 @@
 # 2.0/02  2020/06/06	JKR		 Added functionality to exclude parts of this script from the resulting file using START & END EXCLUDE ALWAYS/JKR/STANDALONE
 # 2.0/03  2020/07/30	JKR		 Added create_myconfig function, purposely not through shlib so the heredoc can be changed per script
 # 2.0/04  2021/08/16    JKR      Some polish on determining the log and cfg dir.
+# 2.0/05  2023/02/15	JKR		 Added COMMENT_IN: functionality to allow a line of code to only be active in the resulting script.
+# 2.0/06  2023/02/15	JKR		 Bugfix: -s standalone option was copied along to the resulting scriptin the getopts, this is no longer the case. 
+Added functionality to comment in 
 #END_EXCLUDE_ALWAYS
 # ==================================================================== #
 # VS 1.0/01
@@ -127,8 +130,10 @@ return 0
 
 # ==================================================================== #
 # Options and documentation
-
+#START_EXCLUDE_ALWAYS
 while getopts ":hvDs" Flag
+#END_EXCLUDE_ALWAYS
+#COMMENT_IN:while getops ":hvD" Flag
 #Some default flags
 do
 
@@ -224,7 +229,10 @@ if [ ${gStandalone} = "true" ]
 	else 
 		sed -i '/^\#START_EXCLUDE_JKR/,/^\#END_EXCLUDE_JKR/d' ${1}
 fi
+#Exclude sections from the resulting script.
 sed -i '/^\#START_EXCLUDE_ALWAYS/,/^\#END_EXCLUDE_ALWAYS/d' ${1}
+#Comment lines in in the resulting script.
+sed -i 's/^\#COMMENT_IN://g' ${1}
 
 #Set permissions: jkrnix scripts should be adjusted through GIT, standalone scripts can be adjusted ad hoc.
 if [ ${gStandalone} = "true" ]
