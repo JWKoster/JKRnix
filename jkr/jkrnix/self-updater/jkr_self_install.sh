@@ -337,7 +337,7 @@ case ${installed} in
 #GIT already contains jkr as first dir, no need to add it here
   		wget -qO jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master ;
 		tar -xzf jkrnix.tar.gz --strip-components=1 && rm jkrnix.tar.gz ;
-                for file in $(find "${jkr:-~/jkr}"/jkrnix -type f)
+                for file in $(find "${jkrnix:-~/jkr/jkrnix}"/ -type f)
                 do
                 if [ "${file}" != 'updater.sh' ] && [ "${file}" != 'jkr_self_install.sh' ]
                 then
