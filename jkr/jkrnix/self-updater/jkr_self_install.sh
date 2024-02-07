@@ -334,8 +334,16 @@ case ${installed} in
 	true) echo "jkrnix already to be loaded through ${envFile}" ;;
 	false) echo "Installing jkrnix" ;
 		cd ~ ;
-		wget -qO jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master ;
+#GIT already contains jkr as first dir, no need to add it here
+  		wget -qO jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master ;
 		tar -xzf jkrnix.tar.gz --strip-components=1 && rm jkrnix.tar.gz ;
+                for file in $(find "${jkr:-~/jkr}"/jkrnix -type f)
+                do
+                if [ "${file}" != 'updater.sh' ] && [ "${file}" != 'jkr_self_install.sh' ]
+                then
+                        sed -i 's/^M//g' "${file}"
+                fi
+
 		cd ~/jkr/jkrnix/self-updater/
 		wget -qO currentVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commits/master --header="Accept: application/vnd.github.VERSION.sha" ;
 
@@ -343,4 +351,3 @@ case ${installed} in
 		ln -sf ~/jkr/jkrnix/lib/*.shlib ~/jkr/lib/ ;
 		cat ~/jkr/jkrnix/cfg/jkr.cfg >> ~/${envFile}
 esac
-
