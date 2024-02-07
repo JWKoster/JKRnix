@@ -341,7 +341,7 @@ case ${installed} in
                 do
                 if [ "${file}" != 'updater.sh' ] && [ "${file}" != 'jkr_self_install.sh' ]
                 then
-                        sed -i 's/^M//g' "${file}"
+                        sed -i 's///g' "${file}"
                 fi
 
 		cd ~/jkr/jkrnix/self-updater/

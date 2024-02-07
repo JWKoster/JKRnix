@@ -7,7 +7,7 @@ for file in $(find ${jkr}/jkrnix -type f)
 do
 if [ "${file}" != 'updater.sh' ] && [ "${file}" != 'jkr_self_install.sh' ]
         then
-                sed -i 's/^M//g' "${file}"
+                sed -i 's///g' "${file}"
 fi
 done
 wget -qO ${jkrnix}/self-updater/currentVersion.flat ${jkrnixrepoversion} --header="Accept: application/vnd.github.VERSION.sha"
