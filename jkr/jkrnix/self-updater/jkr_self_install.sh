@@ -291,14 +291,14 @@ fi
 
 determineEnv()
 {
-if [ -f ~/.unims ]
-	then
- 		. .unims
+if [ -f ~/psd/psd.cfg ]
+        then
+                LSPenv="dev"
+        else
+                LSPenv="NULL"
 fi
-if [ -z ${cwksbEnvironment} ]
-	then cwksbEnvironment="NULL"
-fi
-if [ ${cwksbEnvironment} = 'dev' ]
+
+if [ ${LSPenv} = 'dev' ]
 	then
 		envFile=etc/jkr.cfg
 		installedCheck
