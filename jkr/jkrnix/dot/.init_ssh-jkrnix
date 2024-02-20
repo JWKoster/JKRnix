@@ -2,7 +2,7 @@
 ssh-jkrnix()
 {
 echo "Deploying install file to target system"
-scp ${jkrnix}self-updater/jkr_self_install.sh $@:~/
+scp ${jkrnix}/self-updater/jkr_self_install.sh $@:~/
 echo "Executing install file on target system"
 ssh $@ -t '
 sh ~/jkr_self_install.sh
