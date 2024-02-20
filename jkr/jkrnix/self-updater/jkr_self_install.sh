@@ -291,6 +291,10 @@ fi
 
 determineEnv()
 {
+if [ -f ~/.unims ]
+	then
+ 		. .unims
+fi
 if [ -z ${cwksbEnvironment} ]
 	then cwksbEnvironment="NULL"
 fi
