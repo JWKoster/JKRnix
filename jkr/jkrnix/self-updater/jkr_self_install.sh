@@ -291,7 +291,7 @@ fi
 
 determineEnv()
 {
-if [ -f ~/psd/psd.cfg ]
+if [ -f ~/etc/psd.cfg ]
         then
                 LSPenv="dev"
         else
