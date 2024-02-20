@@ -23,7 +23,7 @@ if [ -n "${gEnvType}" ]
 					v_LSPmajor=$(find ${U_INSTALLROOT}/unts/patches -type d | awk -F "/" '{print $NF}' | tail -n 1 | awk -F "_" '{print $2}')
 					v_LSPpatch=$(find ${U_INSTALLROOT}/unts/patches -type d | awk -F "/" '{print $NF}' | tail -n 1 | awk -F "_" '{print $1}')
 					v_bespokeModuleTemp=$(usql -ne "select _umodu from ~uniusr;")
-					v_bespokeModule=$(echo "${v_bespokeModuleTemp}" | tr -cd '[:alnum:]._-')
+					v_bespokeModule=$(echo "${v_bespokeModuleTemp}" | tr -cd '[:alnum:]._-' | tr '[:upper:]' '[:lower:]')
 					if [ $v_bespokeModule = 'ma' ] || [ $v_bespokeModule = 'cu' ] || [ $v_bespokeModule = 'ts' ]
 						then
 							echo "${v_bespokeModule} from your user is not a proper bespoke module!"
