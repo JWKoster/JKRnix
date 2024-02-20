@@ -302,32 +302,32 @@ if [ ${LSPenv} = 'dev' ]
 	then
 		envFile=~/etc/jkr.cfg
 		installedCheck
-	elif [ -f ~/.bash_profile ] ;
-	then
-		envFile=~/.bash_profile
-		installedCheck
-	else
-		if [ -f ~/.bashrc ] ;
-			envFile=~/.bashrc
-		then
-			installedCheck
-		else
-			if [ -f ~/.unims ] ;
-				envFile=~/.unims
-			then
-				installedCheck
-			else
-				if [ -f ~/.profile ] ;
-					envFile=~/.profile
-				then
-					installedCheck
-				fi
+#	elif [ -f ~/.bash_profile ] ;
+#	then
+#		envFile=~/.bash_profile
+#		installedCheck
+#	else
+#		if [ -f ~/.bashrc ] ;
+#			envFile=~/.bashrc
+#		then
+#			installedCheck
+#		else
+#			if [ -f ~/.unims ] ;
+#				envFile=~/.unims
+#			then
+#				installedCheck
+#			else
+#				if [ -f ~/.profile ] ;
+#					envFile=~/.profile
+#				then
+#					installedCheck
+#				fi
+#
+#			fi
+#
+#		fi
 
-			fi
-
-		fi
-
-	fi
+fi
 }
 # ==================================================================== #
 # Body
