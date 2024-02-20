@@ -1,5 +1,5 @@
 #This file shows a banner / splash screen with useful information when logging in on an LSP environment
-
+ 
 if [ -n "${cwksbEnvironment}" ]
 	then
 		if [ "${cwksbEnvironment}" = "dev" ]
