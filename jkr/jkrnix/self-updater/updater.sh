@@ -5,10 +5,11 @@ wget -qO ${jkr}/tmp/jkrnix.tar.gz ${jkrnixrepo} || exit 1
 tar -xzf ${jkr}/tmp/jkrnix.tar.gz --strip-components=1 -C ~/ && rm ${jkr}/tmp/jkrnix.tar.gz
 for file in $(find ${jkrnix}/ -type f)
 do
-if [ "${file}" != 'updater.sh' ] && [ "${file}" != 'jkr_self_install.sh' ]
-        then
-                sed -i 's///g' "${file}"
-fi
+#if [ "${file}" != 'updater.sh' ] && [ "${file}" != 'jkr_self_install.sh' ]
+#        then
+#                sed -i 's/
+#//g' "${file}"
+#fi
 done
 wget -qO ${jkrnix}/self-updater/currentVersion.flat ${jkrnixrepoversion} --header="Accept: application/vnd.github.VERSION.sha"
 }
