@@ -29,7 +29,7 @@ if [ -n "${gEnvType}" ]
 							echo "${v_bespokeModule} from your user is not a proper bespoke module!"
 						else
 							v_bespokeDir=$(grep "^${v_bespokeModule}d" $U_LOGDEV | awk -F "|" '{print $2}')
-							v_BLSPpatch=$(find ${v_bespokeDir}/patches -type d | sort | tail -n 1 | awk -F "/" '{print $NF}' )
+							v_BLSPpatch=$(find ${v_bespokeDir}/patches -type d | sort | grep -v 'preview' | tail -n 1 | awk -F "/" '{print $NF}' )
 					fi
 				echo "LSP Major      | ${v_LSPmajor}"
 				echo "LSP Patch      | ${v_LSPpatch}"
