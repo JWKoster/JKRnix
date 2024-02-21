@@ -1,6 +1,6 @@
 #!/bin/bash
 JKR_LIBS="jkr_logging.shlib"
-. jkr_load_lib.sh
+. ${jkrnix}/bin/jkr_load_lib.sh
 
 export jkrnixrepo='https://github.com/JWKoster/JKRnix/tarball/master'
 export jkrnixrepoversion='https://api.github.com/repos/JWKoster/JKRnix/commits/master'
