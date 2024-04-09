@@ -1,39 +1,40 @@
 #This file shows a banner / splash screen with useful information when logging in on an LSP environment
 
-if [ -n "${cwksbEnvironment}" ]
-	then
-		if [ "${cwksbEnvironment}" = "dev" ]
-				then
-					alias call_info.sh="call_info.sh -x"
-					echo ""
-					echo "---------------------------------------------------------------------------"
-					echo "Your calls here:"
-					echo ""
-					call.sh query -u ${NIP_LOGNAME}
-#					echo "---------------------------------------------------------------------------"
-		fi
-fi
+
 
 if [ -n "${gEnvType}" ]
 	then
 		if [ "${gEnvType}" = "LSP" ]
+			then
+			if [ -n "${cwksbEnvironment}" ]
 				then
-					echo "---------------------------------------------------------------------------"
-					echo "Version Info"
-					v_LSPmajor=$(find ${U_INSTALLROOT}/unts/patches -type d | sort | awk -F "/" '{print $NF}' | tail -n 1 | awk -F "_" '{print $2}')
-					v_LSPpatch=$(find ${U_INSTALLROOT}/unts/patches -type d | sort | awk -F "/" '{print $NF}' | tail -n 1 | awk -F "_" '{print $1}')
-					v_bespokeModuleTemp=$(usql -ne "select _umodu from ~uniusr;")
-					v_bespokeModule=$(echo "${v_bespokeModuleTemp}" | tr -cd '[:alnum:]._-' | tr '[:upper:]' '[:lower:]')
-					if [ $v_bespokeModule = 'ma' ] || [ $v_bespokeModule = 'cu' ] || [ $v_bespokeModule = 'ts' ]
-						then
-							echo "${v_bespokeModule} from your user is not a proper bespoke module!"
+					if [ "${cwksbEnvironment}" = "dev" ]
+							then
+							alias call_info.sh="call_info.sh -x"
+							echo ""
+							echo "---------------------------------------------------------------------------"
+							echo "Your calls here:"
+							echo ""
+							call.sh query -u ${NIP_LOGNAME}
 						else
-							v_bespokeDir=$(grep "^${v_bespokeModule}d" $U_LOGDEV | awk -F "|" '{print $2}')
-							v_BLSPpatch=$(find ${v_bespokeDir}/patches -type d | sort | grep -v 'preview' | tail -n 1 | awk -F "/" '{print $NF}' )
-					fi
-				echo "LSP Major      | ${v_LSPmajor}"
-				echo "LSP Patch      | ${v_LSPpatch}"
-				echo "Bespoke patch  | ${v_BLSPpatch}"
-				echo "---------------------------------------------------------------------------"
+							echo "---------------------------------------------------------------------------"
+							echo "Version Info"
+							v_LSPmajor=$(find ${U_INSTALLROOT}/unts/patches -type d -mindepth 1 -maxdepth 1 -not -name 'preview' | sort -r | head -n 1 | awk -F "_" '{print $2}')
+							v_LSPpatch=$(find ${U_INSTALLROOT}/unts/patches -type d -mindepth 1 -maxdepth 1 -not -name 'preview' | sort -r | head -n 1 | awk -F "_" '{print $1}')
+							v_bespokeModuleTemp=$(usql -ne "select _umodu from ~uniusr;")
+							v_bespokeModule=$(echo "${v_bespokeModuleTemp}" | tr -cd '[:alnum:]._-' | tr '[:upper:]' '[:lower:]')
+							if [ $v_bespokeModule = 'ma' ] || [ $v_bespokeModule = 'cu' ] || [ $v_bespokeModule = 'ts' ]
+								then
+									echo "${v_bespokeModule} from your user is not a proper bespoke module!"
+								else
+									v_bespokeDir=$(grep "^${v_bespokeModule}d" $U_LOGDEV | awk -F "|" '{print $2}')
+									v_BLSPpatch=$(find ${v_bespokeDir}/patches -type d -mindepth 1 -maxdepth 1 -not -name 'preview' | sort -r | head -n 1 | awk -F "/" '{print $NF}' )
+							fi
+							echo "LSP Major      | ${v_LSPmajor}"
+							echo "LSP Patch      | ${v_LSPpatch}"
+							echo "Bespoke patch  | ${v_BLSPpatch}"
+							echo "---------------------------------------------------------------------------"
+				fi
+			fi
 		fi
 fi
