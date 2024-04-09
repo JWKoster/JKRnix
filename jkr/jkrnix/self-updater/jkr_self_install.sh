@@ -348,6 +348,17 @@ case ${installed} in
 #                        sed -i 's/
 #//g' "${file}"
 #                fi
+if 
+cat <<EOF >> "${envFile}"
+#JKR Start
+#This loads jkrnix: Jelle Koster's own unix customization.
+if [ -f ~/jkr/jkrnix/.init_jkr_main ];
+        then
+            . ~/jkr/jkrnix/.init_jkr_main
+fi
+#Do everything else in ~/jkr/, to try to maintain separation of own creations
+#JKR End
+EOF
 
 		cd ~/jkr/jkrnix/self-updater/
 		wget -qO currentVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commits/master --header="Accept: application/vnd.github.VERSION.sha" ;
