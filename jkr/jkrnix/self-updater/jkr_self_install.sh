@@ -348,7 +348,7 @@ case ${installed} in
 #                        sed -i 's/
 #//g' "${file}"
 #                fi
-if 
+ 
 cat <<EOF >> "${envFile}"
 #JKR Start
 #This loads jkrnix: Jelle Koster's own unix customization.
