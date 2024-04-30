@@ -12,7 +12,7 @@ if [ -n "${gEnvType}" ]
 							then
 							v_gitUrl=$(grep url ${U_INSTALLROOT}/develop/ksb/.git/config)
 							echo "KSB git ${v_gitUrl}"
-							echo "
+							echo ""
 							alias call_info.sh="call_info.sh -x"
 							echo ""
 							echo "---------------------------------------------------------------------------"
