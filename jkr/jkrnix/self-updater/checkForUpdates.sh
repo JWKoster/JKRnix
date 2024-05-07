@@ -16,6 +16,19 @@ fi
 cd ${jkrnix}/self-updater/
 wget -qO ${jkrnix}/self-updater/gitVersion.flat ${jkrnixrepoversion} --header="Accept: application/vnd.github.VERSION.sha"
 
+echo '
+
++======================================+
+|   ___ _   ________ _   _ _______   __|
+|  |_  | | / /| ___ \ \ | |_   _\ \ / /|
+|    | | |/ / | |_/ /  \| | | |  \ V / |
+|    | |    \ |    /| . ` | | |  /   \ |
+|/\__/ / |\  \| |\ \| |\  |_| |_/ /^\ \|
+|\____/\_| \_/\_| \_\_| \_/\___/\/   \/|
++======================================+
+
+'
+
 if [ "$(cat ${jkrnix}/self-updater/gitVersion.flat)" = "$(cat ${jkrnix}/self-updater/currentVersion.flat)" ] ;
         then
         echo "JKRnix is active. No updates to be done. Enjoy!"
