@@ -86,12 +86,12 @@ function fe() { find . -type f -iname '*'"${1:-}"'*' \
 
 #  Find a pattern in a set of files and highlight them:
 #+ (needs a recent version of egrep).
-function fstr()
+function jkr_fstr()
 {
     OPTIND=1
     local mycase=""
-    local usage="fstr: find string in files.
-Usage: fstr [-i] \"pattern\" [\"filename pattern\"] "
+    local usage="jkr_fstr: find string in files.
+Usage: jkr_fstr [-i] \"pattern\" [\"filename pattern\"] "
     while getopts :it opt
     do
         case "$opt" in
@@ -110,7 +110,7 @@ xargs -0 egrep --color=always -sn ${case} "$1" 2>&- | more
 }
 
 
-function swap()
+function jkr_swap()
 { # Swap 2 filenames around, if they exist (from Uzi's bashrc).
     local TMPFILE=tmp.$$
 
@@ -123,7 +123,7 @@ function swap()
     mv $TMPFILE "$2"
 }
 
-function extract()      # Handy Extract Program
+function jkr_extract()      # Handy Extract Program
 {
     if [ -f $1 ] ; then
         case $1 in
