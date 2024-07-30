@@ -59,6 +59,7 @@ printf "%-20s" $1
 				done
 				echo "$(extendTo20Chars "Instance") | Status" > ${jkrtmp}/instancesOnStartup.lst
 				sort ${jkrtmp}/instancesEnabled.lst >> ${jkrtmp}/instancesOnStartup.lst
+				cat ${jkrtmp}/instancesOnStartup.lst
 				
 		fi
 	fi
