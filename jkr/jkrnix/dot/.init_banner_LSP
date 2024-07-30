@@ -39,18 +39,27 @@ printf "%-20s" $1
 			fi
 				echo "---------------------------------------------------------------------------"
 				echo "Enabled Instances:"
+				if [ -f ${jkrtmp}/instancesOnStartup.lst ]
+				then
+					rm ${jkrtmp}/instancesOnStartup.lst
+				fi
 				find ${U_CWKSBHOME}/instances/ -mindepth 1 -maxdepth 1 -type d -not -name backup | awk -F"/" '{print $NF}' > ${jkrtmp}/instancesInstalled.lst
-				echo "$(extendTo20Chars "Instance") | Status" > ${jkrtmp}/instancesEnabled.lst
+				if [ -f ${jkrtmp}/instancesOnStartup.lst ]
+				then
+					rm ${jkrtmp}/instancesOnStartup.lst
+				fi
 				for i_instance in $(cat ${jkrtmp}/instancesInstalled.lst)
 				do
-					if [ ! -f ${U_CWKSBHOME}/instances/${i_instance}.disabled ]
+					if [ -f ${U_CWKSBHOME}/instances/${i_instance}.properties ] && [ ! -f ${U_CWKSBHOME}/instances/${i_instance}.disabled ]
 					then
 						i_instanceStatus=$(jkr_instanceRunningCheck ${i_instance})
 						i_instance=$(extendTo20Chars ${i_instance})
 						echo "${i_instance} | ${i_instanceStatus}" >> ${jkrtmp}/instancesEnabled.lst
 					fi
 				done
-				sort ${jkrtmp}/instancesEnabled.lst
+				echo "$(extendTo20Chars "Instance") | Status" > ${jkrtmp}/instancesOnStartup.lst
+				sort ${jkrtmp}/instancesEnabled.lst >> ${jkrtmp}/instancesOnStartup.lst
+				
 		fi
 	fi
 fi
