@@ -15,8 +15,8 @@ then
 	i_instanceType=mule2
 fi
 case ${i_instanceType} in
-"mule2") uinfo -ks -kn ${1} #use product provided service
-"mule3" | "activemq" | "springboot" ) if [ $(ps -fu $(whoami) | grep ${1} | grep java >/dev/null ) ] ; then echo "running" ; else echo "stopped" ; fi #check the process
+"mule2" ) uinfo -ks -kn ${1} #use product provided service
+"mule3" | "activemq" | "springboot" ) if ps -fu $(whoami) | grep ${1} | grep -q java ; then echo "running" ; else echo "stopped" ; fi #check the process
 }
 extendTo20Chars()
 {
