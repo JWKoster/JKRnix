@@ -22,6 +22,10 @@ if [ -n "${gEnvType}" ]
 				echo "---------------------------------------------------------------------------"
 				echo "Enabled Instances:"
 				find ${U_CWKSBHOME}/instances/ -mindepth 1 -maxdepth 1 -type d -not -name backup | awk -F"/" '{print $NF}' > ${jkrtmp}/instancesInstalled.lst
+				if [ -f ${jkrtmp}/instancesEnabled.lst ]
+				then
+					rm ${jkrtmp}/instancesEnabled.lst
+				fi
 				for i_instance in $(cat ${jkrtmp}/instancesInstalled.lst)
 				do
 					if [ ! -f ${U_CWKSBHOME}/instances/${i_instance}.disabled ]
