@@ -17,7 +17,19 @@ if [ -n "${gEnvType}" ]
 				echo "Your calls here:"
 				echo ""
 				call.sh query -u ${NIP_LOGNAME}
+
 			fi
+				echo "---------------------------------------------------------------------------"
+				echo "Enabled Instances:"
+				echo "find ${U_CWKSBHOME}/instances/ -mindepth 1 -maxdepth 1 -type d -not -name backup | awk -F"/" '{print $NF}' > ${jkrtmp}/instancesInstalled.lst
+				for i_instance in $(cat ${jkrtmp}/instancesInstalled.lst)
+				do
+					if [ ! -f ${U_CWKSBHOME}/instances/${i_instance}.disabled ]
+					then
+						echo ${i_instance} > ${jkrtmp}/instancesEnabled.lst
+					fi
+				done
+				sort instancesEnabled.lst
 		fi
 	fi
 fi
