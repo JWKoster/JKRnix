@@ -17,6 +17,7 @@ fi
 case ${i_instanceType} in
 "mule2" ) uinfo -ks -kn ${1} ;; #use product provided service
 *) if ps -fu $(whoami) | grep ${1} | grep -q java ; then echo "running" ; else echo "stopped" ; fi ;; #check the process
+esac
 }
 extendTo20Chars()
 {
