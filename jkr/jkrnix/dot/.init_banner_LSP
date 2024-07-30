@@ -26,7 +26,7 @@ if [ -n "${gEnvType}" ]
 				do
 					if [ ! -f ${U_CWKSBHOME}/instances/${i_instance}.disabled ]
 					then
-						echo ${i_instance} > ${jkrtmp}/instancesEnabled.lst
+						echo ${i_instance} >> ${jkrtmp}/instancesEnabled.lst
 					fi
 				done
 				sort ${jkrtmp}/instancesEnabled.lst
