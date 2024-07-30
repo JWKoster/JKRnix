@@ -32,7 +32,9 @@ if [ "${gEnvType}" = "LSP" ]
 fi
 
 export jkr=${jkrnix}/../
+export jkrtmp=${jkr}/tmp/
 export jkrlog=${jkr}/logs/
+export jkredi=${jkr}/edi/
 
 #Update self if a new version is available.
 sh ${jkrnix}/self-updater/checkForUpdates.sh
