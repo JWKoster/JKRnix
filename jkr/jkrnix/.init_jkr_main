@@ -6,15 +6,18 @@
 # ==================================================================== #
 
 #Check if this is a multi-user environment, to avoid making changes for other users.
-#This check currently only caters for LSP DEV environments, WSL environments and generic environments, this should be extended for other environment types.
-gEnvType="Generic"
+#This check currently only caters for LSP environments, WSL environments and generic environments, this should be extended for other environment types.
+gEnvType="generic"
 
-if [ "$cwksbEnvironment" = "dev" ]
+if [ ! -z "$cwksbEnvironment" ]
         then
                 gEnvType="LSP" ;
 	elif [ "$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p')" = 'Microsoft' ]
 	then
 				gEnvType="WSL"
+	else
+		echo "This environment type is unrecognized by JKRNIX."
+		echo "JKRNIX may behave in unexpected ways."
 fi
 
 #Use find to support a dynamic install dir, because on some systems (hassOS) the user's home dir is wiped :( 
