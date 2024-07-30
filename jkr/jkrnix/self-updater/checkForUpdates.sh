@@ -17,7 +17,6 @@ cd ${jkrnix}/self-updater/
 wget -qO ${jkrnix}/self-updater/gitVersion.flat ${jkrnixrepoversion} --header="Accept: application/vnd.github.VERSION.sha"
 
 echo '
-
 +======================================+
 |   ___ _   ________ _   _ _______   __|
 |  |_  | | / /| ___ \ \ | |_   _\ \ / /|
