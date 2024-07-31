@@ -366,5 +366,5 @@ EOF
 		ln -sf ~/jkr/jkrnix/bin/*.sh ~/jkr/bin/ ;
 		ln -sf ~/jkr/jkrnix/lib/*.shlib ~/jkr/lib/ ;
 		ln -sf ~/jkr/jkrnix/dot/.* ~/jkr/dot/ ;
-		ln -sf ~/jkr/jkrnix/cfg/jkr.cfg >> ${envFile}
+		ln -sf ~/jkr/jkrnix/cfg/jkr.cfg ${envFile}
 esac
