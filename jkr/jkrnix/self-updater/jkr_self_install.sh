@@ -279,7 +279,7 @@ installedCheck()
 {
 if [ ! -z ${envFile} ] ; 
 	then 
-		if grep -q jkrnix ${envFile} ;
+		if grep -q jkrnix ${envFile} 2>/dev/null ;
 			then 
 				installed=true ; 
 			else
