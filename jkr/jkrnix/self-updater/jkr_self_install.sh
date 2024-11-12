@@ -221,58 +221,6 @@ confirm()
 
 #End of imported libraries
 
-
-# ==================================================================== #
-# Options and documentation
-
-while getopts ":hvDs" Flag
-	#Some default flags
-do
-
-	case ${Flag} in
-		#		Put the # comment on the same line as the option to ensure the option is shown in the dynamic "usage" helptext!
-		# 		For example: h)      # displays this help
-		#		Only entries between #MANSTART and #MANEND are shown, which include those markers at the beginning of the line. You can use #MANSTART and #MANEND multiple times.
-		#		The commented out option letters are reserved, but not in use in the template script. Comment them back in and create some functionality if you want to use them.
-		#       c)      # -c creates my config file, comment this in if your script uses a config file.
-		#               create_myconfig
-		#               exit $?
-		#                ;;
-	#		q)      # Ssshh! Quiet.
-		#				# Create some functionality to prevent output that is not caused by -v to go to the logfile, if you want to support a quiet mode. Maybe add it back into the library in GIT :)
-		#		unset_verbose
-		#		;;
-		#MANSTART
-		h)      # displays this help
-		usage
-		exit
-		;;
-
-	v)      # Verbose!
-		set_verbose
-		;;
-	D)      # Debug to stderr, same as "sh -x"
-		set -x
-		;;
-		#MANEND
-		\?)     # Unknown option!
-		complain "Invalid option: -${OPTARG}"
-		exit 1
-		;;
-	:)      # Option without required argument
-		complain "Option -${OPTARG} requires an argument."
-		exit 1
-		;;
-esac
-done
-# Now shift all flagged parameters to receive the non flagged values as input
-shift $((OPTIND-1))
-
-#DOCSTART
-#
-#This script installs jkrnix: Jelle Koster's own Unix environment settings & toolset.
-#DOCEND
-
 # ==================================================================== #
 # Functions
 installedCheck()
@@ -329,6 +277,84 @@ if [ ${LSPenv} = 'dev' ]
 
 fi
 }
+
+installJkrnix()
+{
+cd ~ ;
+#GIT already contains jkr as first dir, no need to add it here
+wget -qO jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master ;
+tar -xzf jkrnix.tar.gz --strip-components=1 && rm jkrnix.tar.gz ;
+
+cd ~/jkr/jkrnix/self-updater/
+wget -qO currentVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commits/master --header="Accept: application/vnd.github.VERSION.sha" ;
+
+ln -sf ~/jkr/jkrnix/bin/*.sh ~/jkr/bin/ ;
+ln -sf ~/jkr/jkrnix/lib/*.shlib ~/jkr/lib/ ;
+ln -sf ~/jkr/jkrnix/dot/.* ~/jkr/dot/ 2>/dev/null;
+if [ ! -z ${envFile} ]
+	then
+		ln -sf ~/jkr/jkrnix/cfg/jkr.cfg ${envFile}
+	else 
+		echo "envFile is not set - manually ensure jkrnix is automagically started."
+fi
+}
+
+# ==================================================================== #
+# Options and documentation
+
+while getopts ":hvDs" Flag
+	#Some default flags
+do
+
+	case ${Flag} in
+		#		Put the # comment on the same line as the option to ensure the option is shown in the dynamic "usage" helptext!
+		# 		For example: h)      # displays this help
+		#		Only entries between #MANSTART and #MANEND are shown, which include those markers at the beginning of the line. You can use #MANSTART and #MANEND multiple times.
+		#		The commented out option letters are reserved, but not in use in the template script. Comment them back in and create some functionality if you want to use them.
+		#       c)      # -c creates my config file, comment this in if your script uses a config file.
+		#               create_myconfig
+		#               exit $?
+		#                ;;
+	#		q)      # Ssshh! Quiet.
+		#				# Create some functionality to prevent output that is not caused by -v to go to the logfile, if you want to support a quiet mode. Maybe add it back into the library in GIT :)
+		#		unset_verbose
+		#		;;
+		#MANSTART
+		h)      # displays this help
+		usage
+		exit
+		;;
+
+	v)      # Verbose!
+		set_verbose
+		;;
+	D)      # Debug to stderr, same as "sh -x"
+		set -x
+		;;
+		#MANEND
+		\?)     # Unknown option!
+		complain "Invalid option: -${OPTARG}"
+		exit 1
+		;;
+	m)      # Manual - only provide commands to manually install jkrnix without ssh-ing
+		declare -f installJkrnix
+		exit
+		;;
+	:)      # Option without required argument
+		complain "Option -${OPTARG} requires an argument."
+		exit 1
+		;;
+esac
+done
+# Now shift all flagged parameters to receive the non flagged values as input
+shift $((OPTIND-1))
+
+#DOCSTART
+#
+#This script installs jkrnix: Jelle Koster's own Unix environment settings & toolset.
+#DOCEND
+
+
 # ==================================================================== #
 # Body
 
@@ -337,23 +363,5 @@ determineEnv
 case ${installed} in
 	true) echo "jkrnix already to be loaded through ${envFile}" ;;
 	false) echo "Installing jkrnix" ;
-		cd ~ ;
-#GIT already contains jkr as first dir, no need to add it here
-  		wget -qO jkrnix.tar.gz https://github.com/JWKoster/JKRnix/tarball/master ;
-		tar -xzf jkrnix.tar.gz --strip-components=1 && rm jkrnix.tar.gz ;
-#                for file in $(find "${jkrnix:-~/jkr/jkrnix}"/ -type f)
-#                do
-#                if [ "${file}" != 'updater.sh' ] && [ "${file}" != 'jkr_self_install.sh' ]
-#                then
-#                        sed -i 's/
-#//g' "${file}"
-#                fi
- 
-		cd ~/jkr/jkrnix/self-updater/
-		wget -qO currentVersion.flat https://api.github.com/repos/JWKoster/JKRnix/commits/master --header="Accept: application/vnd.github.VERSION.sha" ;
-
-		ln -sf ~/jkr/jkrnix/bin/*.sh ~/jkr/bin/ ;
-		ln -sf ~/jkr/jkrnix/lib/*.shlib ~/jkr/lib/ ;
-		ln -sf ~/jkr/jkrnix/dot/.* ~/jkr/dot/ 2>/dev/null;
-		ln -sf ~/jkr/jkrnix/cfg/jkr.cfg ${envFile}
+			installJkrnix
 esac
