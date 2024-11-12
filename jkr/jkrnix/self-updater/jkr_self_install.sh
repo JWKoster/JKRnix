@@ -302,7 +302,7 @@ fi
 # ==================================================================== #
 # Options and documentation
 
-while getopts ":hvDs" Flag
+while getopts ":hmvD" Flag
 	#Some default flags
 do
 
@@ -320,11 +320,14 @@ do
 		#		unset_verbose
 		#		;;
 		#MANSTART
-		h)      # displays this help
+	h)      # displays this help
 		usage
 		exit
 		;;
-
+	m)      # Manual - only provide commands to manually install jkrnix without ssh-ing
+		declare -f installJkrnix
+		exit
+		;;
 	v)      # Verbose!
 		set_verbose
 		;;
@@ -336,10 +339,7 @@ do
 		complain "Invalid option: -${OPTARG}"
 		exit 1
 		;;
-	m)      # Manual - only provide commands to manually install jkrnix without ssh-ing
-		declare -f installJkrnix
-		exit
-		;;
+
 	:)      # Option without required argument
 		complain "Option -${OPTARG} requires an argument."
 		exit 1
