@@ -28,7 +28,6 @@ printf "%-20s" $1
 		then
 			if [ "${cwksbEnvironment}" = "dev" ]
 			then
-				alias call_info.sh="call_info.sh -x"
 				v_gitUrl=$(grep url ${U_INSTALLROOT}/develop/ksb/.git/config)
 				echo "KSB git ${v_gitUrl}"
 				echo "---------------------------------------------------------------------------"

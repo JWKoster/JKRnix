@@ -1,0 +1,25 @@
+#============================================================
+#
+#  ALIASES AND FUNCTIONS
+#
+#  LSP-specific
+#============================================================
+
+if [ -n "${gEnvType}" ]
+then
+if [ "${gEnvType}" = "LSP" ]
+then
+#============================================================
+#  Generic section
+#============================================================
+if [ "${cwksbEnvironment}" = "dev" ]
+then
+#============================================================
+#  Dev section
+#============================================================
+alias call_complete.sh="call_complete.sh -C" #also close call after completing
+alias call_info.sh="call_info.sh -x" #also show exi text
+
+fi
+fi
+fi
