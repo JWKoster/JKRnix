@@ -74,6 +74,9 @@ nonascii() {
 # File & strings related functions:
 #-------------------------------------------------------------
 
+#Echo as bold and restore to normal, for headers
+function echobold() { echo $(tput bold) "${@}" $(tput sgr0) ; }
+
 #Easy backing up of files with date stamp.
 function jkr_cpsave() { cp -p ${1} ${1}_save$(date +%F) ; }
 

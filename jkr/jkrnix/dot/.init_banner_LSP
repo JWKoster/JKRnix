@@ -31,13 +31,13 @@ printf "%-20s" $1
 				v_gitUrl=$(grep url ${U_INSTALLROOT}/develop/ksb/.git/config)
 				echo "KSB git ${v_gitUrl}"
 				echo "---------------------------------------------------------------------------"
-				echo "Your calls here:"
+				echobold "Your calls here:"
 				echo ""
 				call.sh query -u ${NIP_LOGNAME}
 
 			fi
 				echo "---------------------------------------------------------------------------"
-				echo "Enabled Instances:"
+				echobold "Enabled Instances:"
 				if [ -f ${jkrtmp}/instancesOnStartup.lst ]
 				then
 					rm ${jkrtmp}/instancesOnStartup.lst
@@ -59,8 +59,8 @@ printf "%-20s" $1
 						echo "${i_instance} | ${i_instanceStatus}" >> ${jkrtmp}/instancesEnabled.lst
 					fi
 				done
-				echo "$(extendTo20Chars "Instance") | Status" > ${jkrtmp}/instancesOnStartup.lst
-				sort ${jkrtmp}/instancesEnabled.lst >> ${jkrtmp}/instancesOnStartup.lst
+				echobold "$(extendTo20Chars "Instance") | Status"
+				cat ${jkrtmp}/instancesEnabled.lst >> ${jkrtmp}/instancesOnStartup.lst
 				cat ${jkrtmp}/instancesOnStartup.lst
 				
 		fi
