@@ -233,7 +233,14 @@ if [ ! -z ${envFile} ] ;
 			else
 				installed=false ;
 		fi
-	else echo "${envFile} not set"
+	else 
+		echo "${envFile} not set"
+		if [ -d ~/jkr/jkrnix ]
+			then
+				installed=true ; 
+			else
+				installed=false ;
+		fi
 fi
 }
 
@@ -250,6 +257,7 @@ if [ ${LSPenv} = 'dev' ]
 	then
 		envFile=~/etc/jkr.cfg
 		installedCheck
+#Below is present as preparation for automagical starting of jkrnix in such environment, but needs more work. Manually set it up or arrange other automation.
 #	elif [ -f ~/.bash_profile ] ;
 #	then
 #		envFile=~/.bash_profile
@@ -297,7 +305,6 @@ if [ ! -z ${envFile} ]
 	else 
 		echo "envFile is not set - manually ensure jkrnix is automagically started."
 fi
-cd -
 }
 
 # ==================================================================== #
