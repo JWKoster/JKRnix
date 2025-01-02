@@ -229,6 +229,7 @@ if [ -f ~/etc/psd.cfg ]
         then
                 LSPenv="dev"
         elif [ -f ~/.unims ]
+			then
 				LSPenv="non-dev"
 		else		
                 LSPenv="NULL"
