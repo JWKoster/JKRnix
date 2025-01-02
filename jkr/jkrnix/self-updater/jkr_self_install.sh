@@ -297,6 +297,7 @@ if [ ! -z ${envFile} ]
 	else 
 		echo "envFile is not set - manually ensure jkrnix is automagically started."
 fi
+cd -
 }
 
 # ==================================================================== #
