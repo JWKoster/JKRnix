@@ -40,7 +40,7 @@ export jkredi=${jkr}/edi/
 sh ${jkrnix}/self-updater/checkForUpdates.sh
 
 #execute dotfiles
-for dot in $(find -L ${jkr}/dot/ -type f -name ".*" ! -name "*.disabled" )
+for dot in $(find -L ${jkr}/dot/ -type f -name ".*" ! -name "*.disabled" | sort -f) # inconsistent sorting causes issues
 	do
 		if [ -f ${dot} ]
 			then
