@@ -223,6 +223,47 @@ confirm()
 
 # ==================================================================== #
 # Functions
+determineEnv()
+{
+if [ -f ~/etc/psd.cfg ]
+        then
+                LSPenv="dev"
+        elif [ -f ~/.unims ]
+				LSPenv="non-dev"
+		else		
+                LSPenv="NULL"
+fi
+
+if [ ${LSPenv} = 'dev' ]
+	then
+		envFile=~/etc/jkr.cfg
+		
+fi
+#Below is present as preparation for automagical starting of jkrnix in such environment, but needs more work. Manually set it up or arrange other automation.
+#	elif [ -f ~/.bash_profile ] ;
+#	then
+#		envFile=~/.bash_profile
+#	else
+#		if [ -f ~/.bashrc ] ;
+#		then
+#			envFile=~/.bashrc
+#		else
+#			if [ -f ~/.unims ] ;
+#				then
+#				envFile=~/.unims
+#			else
+#				if [ -f ~/.profile ] ;
+#					then
+#					envFile=~/.profile
+#				fi
+#
+#			fi
+#
+#		fi
+
+installedCheck
+}
+
 installedCheck()
 {
 if [ ! -z ${envFile} ] ; 
@@ -241,48 +282,6 @@ if [ ! -z ${envFile} ] ;
 			else
 				installed=false ;
 		fi
-fi
-}
-
-determineEnv()
-{
-if [ -f ~/etc/psd.cfg ]
-        then
-                LSPenv="dev"
-        else
-                LSPenv="NULL"
-fi
-
-if [ ${LSPenv} = 'dev' ]
-	then
-		envFile=~/etc/jkr.cfg
-		installedCheck
-#Below is present as preparation for automagical starting of jkrnix in such environment, but needs more work. Manually set it up or arrange other automation.
-#	elif [ -f ~/.bash_profile ] ;
-#	then
-#		envFile=~/.bash_profile
-#		installedCheck
-#	else
-#		if [ -f ~/.bashrc ] ;
-#			envFile=~/.bashrc
-#		then
-#			installedCheck
-#		else
-#			if [ -f ~/.unims ] ;
-#				envFile=~/.unims
-#			then
-#				installedCheck
-#			else
-#				if [ -f ~/.profile ] ;
-#					envFile=~/.profile
-#				then
-#					installedCheck
-#				fi
-#
-#			fi
-#
-#		fi
-
 fi
 }
 
