@@ -24,6 +24,54 @@ extendTo20Chars()
 printf "%-20s" $1
 }
 
+env_pkg_patchlevel()
+{
+        # $1 - package to retrieve patchlevel for
+        basename "$(find "${U_INSTALLROOT}/${1}/patches/" -mindepth 1 -maxdepth 1 -type d -not -name 'preview' | sort -r | head -n1)"
+}
+
+env_version_banner()
+{
+        if ! [ -d "${U_INSTALLROOT}/unts/patches" ]; then
+                echo >&2 "env_version_banner: version information cannot be shown"
+                return 1
+        fi
+
+        # The LSP base package version (unts)
+        patch_level="$(env_pkg_patchlevel unts)"
+
+        pkg="unts"
+        pkg_patch="$(basename "${patch_level}" | cut -d_ -f1)"
+        pkg_release="$(basename "${patch_level}" | cut -d_ -f2)"
+
+        echo "Local package version information:"
+        echo ""
+        printf "%-25s| %s\n" "Package" "Patch"
+        printf -- "-------------------------+----------------------\n"
+        printf "%-25s| %s\n" "${pkg} (release: ${pkg_release})" "${pkg_patch}"
+
+        if ! [ -z "${U_MODUPATH}" ]; then
+                echo >&2 "env_version_banner: modupath not found"
+                return 1
+        fi
+        modules=$(grep U_MODUPATHS ${U_INSTALLROOT}/.unims | awk -F'(' '{print $2}' | awk -F')' '{print $1}' | awk -F',' '{print}')
+        for modu in ${modules//,/ }
+                do
+                if [[ $modu != "zz" && $modu != "ts" && $modu != "eu" && $modu != "ce" && $modu != "un" && $modu != "um" && $modu != "eu" ]]
+                then
+                        if [[ $modu =~ [A-Z] ]]
+                        then
+                                echo "Warning: $modu is active as development module here!"
+                        else
+                                pkg="$(basename $(cpat ${modu}d))"
+                                patch_level="$(env_pkg_patchlevel "${pkg}")"
+                                pkg_patch="$(basename "${patch_level}" | cut -d_ -f1)"
+                                printf "%-25s| %s\n" "${pkg}" "${pkg_patch}"
+                        fi
+                fi
+        done
+}
+
 		if [ -n "${cwksbEnvironment}" ]
 		then
 			if [ "${cwksbEnvironment}" = "dev" ]
@@ -34,35 +82,38 @@ printf "%-20s" $1
 				echobold "Your calls here:"
 				echo ""
 				call.sh query -u ${NIP_LOGNAME}
-
-			fi
+			else
 				echo "---------------------------------------------------------------------------"
-				echobold "Enabled Instances:"
-				if [ -f ${jkrtmp}/instancesOnStartup.lst ]
-				then
-					rm ${jkrtmp}/instancesOnStartup.lst
-				fi
-				if [ -f ${jkrtmp}/instancesEnabled.lst ]
-				then
-					rm ${jkrtmp}/instancesEnabled.lst
-				fi
-				
-				find ${U_CWKSBHOME}/instances/ -mindepth 1 -maxdepth 1 -type d -not -name backup | awk -F"/" '{print $NF}' > ${jkrtmp}/instancesInstalled.lst
-				echo "activemq" >> ${jkrtmp}/instancesInstalled.lst
-				sort -o ${jkrtmp}/instancesInstalled.lst ${jkrtmp}/instancesInstalled.lst
-				for i_instance in $(cat ${jkrtmp}/instancesInstalled.lst)
-				do
-					if [ -f ${U_CWKSBHOME}/instances/${i_instance}.properties ] && [ ! -f ${U_CWKSBHOME}/instances/${i_instance}.disabled ]
-					then
-						i_instanceStatus=$(jkr_instanceRunningCheck ${i_instance})
-						i_instance=$(extendTo20Chars ${i_instance})
-						echo "${i_instance} | ${i_instanceStatus}" >> ${jkrtmp}/instancesEnabled.lst
-					fi
-				done
-				echobold "$(extendTo20Chars "Instance") | Status"
-				cat ${jkrtmp}/instancesEnabled.lst >> ${jkrtmp}/instancesOnStartup.lst
-				cat ${jkrtmp}/instancesOnStartup.lst
-				
+				env_version_banner
+			fi
+
+		echo "---------------------------------------------------------------------------"
+		echobold "Enabled Instances:"
+		if [ -f ${jkrtmp}/instancesOnStartup.lst ]
+		then
+			rm ${jkrtmp}/instancesOnStartup.lst
+		fi
+		if [ -f ${jkrtmp}/instancesEnabled.lst ]
+		then
+			rm ${jkrtmp}/instancesEnabled.lst
+		fi
+		
+		find ${U_CWKSBHOME}/instances/ -mindepth 1 -maxdepth 1 -type d -not -name backup | awk -F"/" '{print $NF}' > ${jkrtmp}/instancesInstalled.lst
+		echo "activemq" >> ${jkrtmp}/instancesInstalled.lst
+		sort -o ${jkrtmp}/instancesInstalled.lst ${jkrtmp}/instancesInstalled.lst
+		for i_instance in $(cat ${jkrtmp}/instancesInstalled.lst)
+		do
+			if [ -f ${U_CWKSBHOME}/instances/${i_instance}.properties ] && [ ! -f ${U_CWKSBHOME}/instances/${i_instance}.disabled ]
+			then
+				i_instanceStatus=$(jkr_instanceRunningCheck ${i_instance})
+				i_instance=$(extendTo20Chars ${i_instance})
+				echo "${i_instance} | ${i_instanceStatus}" >> ${jkrtmp}/instancesEnabled.lst
+			fi
+		done
+		echobold "$(extendTo20Chars "Instance") | Status"
+		cat ${jkrtmp}/instancesEnabled.lst >> ${jkrtmp}/instancesOnStartup.lst
+		cat ${jkrtmp}/instancesOnStartup.lst
+		
 		fi
 	fi
 fi
