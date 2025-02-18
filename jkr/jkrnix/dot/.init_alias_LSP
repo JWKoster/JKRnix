@@ -20,7 +20,10 @@ then
 alias call_complete.sh="call_complete.sh -C" #also close call after completing
 alias call_info.sh="call_info.sh -x" #also show exi text
 #Prompt info 
-PS1='[\u(${U_USER})@\h [C:$(get_active_call.sh) J:$(cat ${U_INSTALLROOT}/etc/calls/jkr.JIRA 2>/dev/null)]$'
+if "${PSD_CMGR_EXPAND_LOGNAME:-false}" ; then
+	JKR_CALLMGR_USER="jelle.koster"
+fi
+PS1='[\u(${U_USER})@\h [C:$(get_active_call.sh) J:$(cat ${U_INSTALLROOT}/etc/calls/${JKR_CALLMGR_USER:-jkr}.JIRA 2>/dev/null)]$ '	
 
 fi
 fi
