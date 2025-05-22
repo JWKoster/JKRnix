@@ -25,6 +25,12 @@ if "${PSD_CMGR_EXPAND_LOGNAME:-false}" ; then
 fi
 PS1='[\u(${U_USER})@\h [C:$(get_active_call.sh) J:$(cat ${U_INSTALLROOT}/etc/calls/${JKR_CALLMGR_USER:-jkr}.JIRA 2>/dev/null)]$ '	
 
+jkr-mule-server()
+{
+mule-server.sh -in ${1:-bespoke} restart ; mule-server.sh -in ${1:-bespoke} log
+}
+
+alias jkrm="jkr-mule-server"
 fi
 fi
 fi
