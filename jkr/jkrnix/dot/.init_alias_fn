@@ -46,7 +46,10 @@ alias la='ll -A'           #  Show hidden files.
 
 
 # Why vi, if you can vim?
-alias vi='vim'
+if $(which vim >/dev/null 2>&1)
+then
+	alias vi='vim'
+fi
 
 # Get week number
 alias week='date +%V'
